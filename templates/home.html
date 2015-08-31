@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Righteous|Squada+One|cursive'>
+    <title>Les Glaneurs</title>
+</head>
+<body >
+{% load staticfiles %}
+<div class="container-fluid" style="padding-top:15px">
+    <div class="row">
+        <div class="col-md-8">
+            <div style="padding-right:15px; padding-left:15px" class="scaling">
+                <img alt="logo"
+                    src="{% static 'images/logo.png' %}"
+                     class="img-responsive"
+                     >
+            </div>
+            <div style="padding-left: 60px; padding-top: 30px" class="scaling">
+                <div>
+                    <iframe
+                            class="embed-responsive-item"
+                            src="https://www.youtube.com/embed/edLEyRqIgu0"
+                            frameborder="0" allowfullscreen
+                            style="min-height: 250px"
+                            >
+                    </iframe>
+                </div>
+                <div style="padding-top: 30px;">
+                    <a href="https://www.facebook.com/lesglaneursstpierredaurillac"
+                       target="_blank">
+                        <img alt="lien vers Facebook"
+                             src="{% static 'images/facebook_rect.png' %}"
+                             class="img-responsive">
+                    </a>
+                </div>
+
+                <div style="padding-top:15px">
+
+                    <a href="lesglaneurs/quiz_typeform"
+                       target="_blank">
+
+                        <img alt="lien vers le recensement"
+                             src="{% static 'images/quest_rect.png' %}"
+                             class="img-responsive">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"
+             style="padding-right: 0px; padding-left: 0px;"
+             >
+<!--
+                    background: url('../../static/images/map_fr_st_pierre_v1.jpg')"
+-->
+
+            <div style="padding-left: 5%; padding-top: 5%;" class="contact-end" >
+                <a href="mailto:contact@lesglaneurs.com?subject=contact%20web">
+                    <img alt="contact"
+                         src="{% static 'images/contact_peer.png' %}"
+                         width="10%"
+                         align="middle">
+                </a>
+
+                <a href="mailto:contact@lesglaneurs.com?subject=contact%20web"
+                   class="text-red"
+                   style="font-size: 150%; font-weight: bold">
+                   contact@lesglaneurs.com
+                </a>
+            </div>
+                <div>
+                <img alt="Carte de France - St Pierre d'Aurillac"
+                     src="{% static 'images/map_fr_st_pierre_v1.jpg' %}"
+                     class="img-responsive"
+                     style="width: 100%"
+                     >
+
+                <!--
+                    Supposed to use style but does not work right
+                                 style="width:1024px;height:768px">
+                -->
+                <!-- Why using height since it is adjusted automatically ?
+                    1024 for intermediate screens
+                -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
