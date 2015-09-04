@@ -1,12 +1,13 @@
 #!/bin/bash
 
-## sudo gunicorn lesglaneurs_01.wsgi:application --bind 127.0.0.1:8800
+## sudo gunicorn lesglaneurs.wsgi:application --bind 127.0.0.1:5555
 
 
 NAME="lesglaneurs"     
 PROJECT_NAME=lesglaneurs                       # Name of the application
 DJANGO_DIR=~/$PROJECT_NAME                          # Django project directory
-SOCKFILE=$DJANGO_DIR/run/gunicorn.sock            # we will communicate using this unix socket
+#SOCKFILE=$DJANGO_DIR/run/gunicorn.sock            # we will communicate using this unix socket
+SOCKFILE=~/run/gunicorn.sock            	# to handled shared file system with VM
 USER=django                                       # the user to run as
 GROUP=webapps                                     # the group to run as
 NUM_WORKERS=3                                     # how many worker processes should Gunicorn spawn
