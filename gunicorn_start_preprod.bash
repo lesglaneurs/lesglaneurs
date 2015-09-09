@@ -4,9 +4,9 @@
 
 
 NAME="lesglaneurs_preprod"
-PROJECT_NAME=lesglaneurs                       # Name of the application
-DJANGO_DIR=~/$PROJECT_NAME                          # Django project directory
-SOCKFILE=~/run/gunicorn_preprod.sock            	# to handled shared file system with VM
+PROJECT_NAME=lesglaneurs	                  # Name of the application
+DJANGO_DIR=~/lesglaneurs_preprod              # Django project directory
+SOCKFILE=~/run/gunicorn_preprod.sock	       	# to handled shared file system with VM
 USER=django                                       # the user to run as
 GROUP=webapps                                     # the group to run as
 NUM_WORKERS=3                                     # how many worker processes should Gunicorn spawn
