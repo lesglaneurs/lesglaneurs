@@ -5,12 +5,12 @@
 
 NAME="lesglaneurs"     
 PROJECT_NAME=lesglaneurs                       # Name of the application
-DJANGO_DIR=~/$PROJECT_NAME                          # Django project directory
-SOCKFILE=~/run/gunicorn.sock            	# to handled shared file system with VM
+DJANGO_DIR=/webapps/django/$PROJECT_NAME          # Django project directory
+SOCKFILE=/webapps/django/run/gunicorn.sock        # to handled shared file system with VM
 USER=django                                       # the user to run as
 GROUP=webapps                                     # the group to run as
 NUM_WORKERS=3                                     # how many worker processes should Gunicorn spawn
-DJANGO_SETTINGS_MODULE=$PROJECT_NAME.settings.prod
+DJANGO_SETTINGS_MODULE=$PROJECT_NAME.settings.dev
 DJANGO_WSGI_MODULE=$PROJECT_NAME.wsgi                     # WSGI module name
 
 echo "Starting $NAME as `whoami`"
@@ -33,4 +33,4 @@ exec gunicorn ${DJANGO_WSGI_MODULE}:application \
   --workers $NUM_WORKERS \
   --bind=unix:$SOCKFILE \
   --log-level=info \
-  --log-file=run/logs/gunicorn.log \
+  --log-file=$DJANGO_DIR/run/logs/gunicorn.log \
