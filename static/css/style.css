@@ -1,42 +1,36 @@
 
-/*Debug*/
-/*
-* {
-	border: 1px solid red !important;
-}
-
-* {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-ms-box-sizing: border-box;
-	box-sizing: border-box;
-}
-*/
-
-/*when use the point classname .row ?*/
 
 body{
-    font-family: "Helvetica Neue";
+    font-family: 'Homenaje', 'Squada One', cursive;
+    height: 100%;
 }
 
 .container-fluid {
   justify-content: space-between ;
-}
-.row {
-	vertical-align: middle;
-}
-
-.text-red {
-    color: #B62025;
-}
-
-.contact-end {
-  align-self: flex-end;
+  position: relative;
 }
 
 .scaling {
     width: 50%;
     margin: auto;
-/*    align: center;
-    align-items: center;*/
 }
+
+.text-red {
+    color: #B62025;
+    font-weight: bold;
+}
+
+#carte_france {
+    position:absolute;
+    right:0;
+    top:0;
+    bottom:0;
+    z-index: -1;
+}
+
+#contact {
+  align-self: flex-end;
+  padding-left: 5%;
+  padding-top: 5%
+}
+
