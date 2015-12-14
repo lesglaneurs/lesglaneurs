@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 <html>
-<head>
+<head lang="fr">
   <meta charset="utf-8">
   <title>Fiche Projet ReBelle</title>
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
@@ -46,36 +46,56 @@
         <!--<div style="height=657px; width: 691px; position: relative;">-->
       <!--src="/home/magmat/Magda/Glaneurs/Marches/rencontres/ReBelle/ReBelle_2_1000px.jpg"-->
 
-        <img src="{% static 'presentation/images/projet_rebelle_2.jpg' %}"
+        <img src="{% static 'presentation/images/projet_rebelle.jpg' %}"
             class="size_sheet"
             style="z-index:-1">
 
         <img src="{% static 'presentation/images/question.png' %}"
              class="question"
-            style="left: 5%; top: 3%;"
-            data-toggle="modal" data-target="#project1">
+            style="left: 60%; top: 5%;"
+            data-toggle="modal" data-target="#chiffre_affaire">
 
         <img src="{% static 'presentation/images/question.png' %}"
              class="question"
-            style="left: 20%; top: 20%;"
-            data-toggle="modal" data-target="#project1">
+            style="left: 90%; top: 15%;"
+            data-toggle="modal" data-target="#comm_gachis">
 
         <img src="{% static 'presentation/images/question.png' %}"
              class="question"
-            style="left: 20%; top: 40%;"
-            data-toggle="modal" data-target="#project1">
+            style="left: 18%; top: 30%;"
+            data-toggle="modal" data-target="#chiffres_recup">
+
+        <img src="{% static 'presentation/images/question.png' %}"
+             class="question"
+            style="left: 69%; top: 22%;"
+            data-toggle="modal" data-target="#chiffres_gachis">
+
+        <img src="{% static 'presentation/images/question.png' %}"
+             class="question"
+            style="left: 70%; top: 70%;"
+            data-toggle="modal" data-target="#label_rebelle">
+
+        <img src="{% static 'presentation/images/question.png' %}"
+             class="question"
+            style="left: 30%; top: 80%;"
+            data-toggle="modal" data-target="#qualite_conf">
 
         <img src="{% static 'presentation/images/question.png' %}"
              class="question"
             style="left: 30%; top: 50%;"
-            data-toggle="modal" data-target="#project1">
+            data-toggle="modal" data-target="#recette_choix">
+
+        <img src="{% static 'presentation/images/question.png' %}"
+             class="question"
+            style="left: 60%; top: 55%;"
+            data-toggle="modal" data-target="#gamme_stock">
       </div>
     </div>
   </div>
 
 
   <!-- Modal -->
-  <div class="modal fade" id="project1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal fade" id="chiffre_affaire" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -93,6 +113,131 @@
     </div>
   </div>
 
+    <div class="modal fade" id="label_rebelle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Besoin</h4>
+        </div>
+        <div class="modal-body">
+            En tant que fondatrice de ReBelle,
+            j'ai besoin de garantir que tous les fruits et légumes en bon état récupérés dans les supermarchés
+            seront vendus sous la marque ReBelle afin d'éviter des fuites dans mon chiffre d'affaire.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="modal fade" id="chiffres_recup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Besoin</h4>
+        </div>
+        <div class="modal-body">
+            En tant que fondatrice de ReBelle,
+            j'ai besoin de connaitre le type et les quantites des produits récupérés et utilisables
+            afin d'analyser les tendances du gâchis pour faire des prévisions et permettre des préventions.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="chiffres_gachis" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Besoin</h4>
+        </div>
+        <div class="modal-body">
+            En tant que fondatrice de ReBelle,
+            j'ai besoin de connaitre tous les chiffres liés au gâchis alimentaire
+            afin d’étayer l'image de marque de ReBelle basée sur la diminution du gâchis alimentaire
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="comm_gachis" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Besoin</h4>
+        </div>
+        <div class="modal-body">
+            En tant que fondatrice de ReBelle,
+            j'ai besoin de commniquer sur la diminution de gâchis alimentaire
+            que permet ReBelle afin de fidéliser mes clients et d'attirer de nouveaux clients.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="qualite_conf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Besoin</h4>
+        </div>
+        <div class="modal-body">
+            En tant que fondatrice de ReBelle,
+            j'ai besoin de garantir et prévenir la qualité des confitures
+            afin de ne pas perdre l'image de marque de ReBelle basée sur la qualité gustative
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="recette_choix" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Besoin</h4>
+        </div>
+        <div class="modal-body">
+            En tant que cuisinier, à chaque livraison il m'arrive des produits différents et en quantités différentes,
+            j'ai besoin d'un moyen pour décider quelles recettes cuisiner parmi les recettes prédéfinis de ReBelle
+            afin de remplir des marmites entières, d'utiliser les produits les plus anciens en premier et de garantir la disponibilité des gammes prédéfinis chez les revendeurs.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="gamme_stock" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Besoin</h4>
+        </div>
+        <div class="modal-body">
+            En tant que cuisinier,
+            j'ai besoin de connaitre quelles sont les gammes de confitures à produire
+            afin de livrer les gammes de confitures qui garantissent la disponibilité des deux gammes chez mes revendeurs
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
