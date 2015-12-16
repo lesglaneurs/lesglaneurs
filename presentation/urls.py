@@ -11,8 +11,8 @@ urlpatterns = patterns('',
 # lesglaneurs.com/presentation/rebelle.html
 # lesglaneurs.com/presentation/bocal_local.html
 
-      url(r'^rebelle/$', 'presentation.views.rebelle', name='rebelle'),
-      url(r'^bocal_local/$', 'presentation.views.bocal_local', name='bocal_local'),
+      #url(r'^rebelle/$', 'presentation.views.rebelle', name='rebelle'),
+      #url(r'^bocal_local/$', 'presentation.views.bocal_local', name='bocal_local'),
 
-      #url(r'^(?P<project_name>(.*))/$', views.project, name='project'),
+      url(r'^(?P<project_name>(.*))/$', views.project, name='project'),
 )
