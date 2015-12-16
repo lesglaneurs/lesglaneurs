@@ -1,0 +1,46 @@
+
+body{
+    font-weight: 600;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap-reverse;
+}
+
+.identity {
+    background-color:#E6E72E;
+    padding-left: 8%;
+    padding-right: 2%;
+}
+
+.identity_title {
+    color:#D9105A;
+    text-align:center;
+    font-family: arial;
+}
+
+.identity_sub_title {
+    color:#D9105A;
+    padding-top: 10px;
+    margin-bottom: 0px;
+}
+
+.image_title {
+    color:#D9105A;
+    font-weight: normal;
+}
+
+.size_sheet {
+    width: 691px;
+    height: 657px;
+}
+
+.question {
+    position: absolute;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    alt: "question, besoin, problème?"
+}
