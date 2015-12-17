@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-md-6">
                     <p class="image_title" style="text-align:center;">Futur</p>
-                    <img src="{{ images }}{{ project.name }}/where_today.png"  style="display:inline;">
+                    <img src="{{ images }}{{ project.name }}/where_futur.png"  style="display:inline;">
                 </div>
             </div>
             <!--<div>{% for (key, value) in identity_items.all %} {% endfor %}</div>                        -->
@@ -46,7 +46,7 @@
             {% for s in project.story_set.all %}
             <img src="{% static 'presentation/images/question.png' %}"
                  class="question"
-                 style="left: {{s.coordinate.x}}%; top: {{s.coordinate.y}}%;"
+                 style="left: {{ s.coordinate_x }}%; top: {{ s.coordinate_y }}%;"
                  data-toggle="modal" data-target="#{{s.id}}">
 
             <div class="modal fade" id="{{s.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -57,6 +57,10 @@
                         </div>
                         <div class="modal-body">
                             {{s.content}}
+                            s: {{ s }}
+                            project all : {{ project.story_set.all }}
+                            x: {{s.coordinate_x}}
+                            y: {{s.coordinate_y}}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
