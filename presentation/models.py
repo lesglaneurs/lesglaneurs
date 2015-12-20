@@ -1,19 +1,27 @@
 from django.db import models
 
 # Create your models here.
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/project_name/<filename>
+    return '{0}/{1}'.format(instance.name, filename)
+
 class Project(models.Model):
     name = models.CharField(max_length=100)
-    logo = models.ImageField()
-    photo = models.ImageField()
+    owner = models.ImageField(upload_to=user_directory_path)
+    # creation_date = models.DecimalField(max_digits=8, decimal_places=0, default='9999')
     creation_date = models.PositiveIntegerField()
     contact_name = models.CharField(max_length=100)
     email = models.EmailField()
+    # telephone = models.DecimalField(max_digits=10, decimal_places=0, default='0600000000')
     telephone = models.IntegerField()
-    web_site = models.URLField()
+    web_site = models.URLField(default='http://')
 
     structure = models.CharField(max_length=100)
-    location_today = models.ImageField()
-    location_target = models.ImageField()
+    location_today = models.ImageField(upload_to=user_directory_path)
+    location_target = models.ImageField(upload_to=user_directory_path)
+    logo = models.ImageField(upload_to=user_directory_path)
+    project_structure = models.ImageField(upload_to=user_directory_path)
+    workers = models.TextField()
 
     def __unicode__(self):
         return unicode(self.name)

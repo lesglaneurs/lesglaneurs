@@ -22,13 +22,13 @@ body{
 }
 
 .identity_sub_title {
-    color:#D9105A;
+    color: #D9105A;
     padding-top: 10px;
     margin-bottom: 0px;
 }
 
 .image_title {
-    color:#D9105A;
+    color: #D9105A;
     font-weight: normal;
 }
 
@@ -45,6 +45,12 @@ body{
     alt: "besoin"
 }
 
+.tooltip-inner {
+    background-color: #00acd6;
+    color: #00acd6;
+}
+
 .popover{
     width: 400px;
+    background-color:#E6E72E;
 }

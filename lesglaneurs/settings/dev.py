@@ -6,4 +6,3 @@ ALLOWED_HOSTS = ['127.0.0.1',
 DEBUG=True
 TEMPLATE_DEBUG = True
 
-STATIC_ROOT = '/static_dev/'
