@@ -4,6 +4,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+      <meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0">
     <title>Fiche projet {{ project.name }}</title>
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'presentation/css/style.css' %}" rel="stylesheet">
@@ -12,32 +13,33 @@
 
 </head>
 <body>
+<div class="container-fluid">
     <div class="row">
-        <div class="col-lg-2, identity" style="display:block;">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 identity" style="display:block;">
             <h1 class="identity_title">{{ project.name|upper }}</h1>
-            <img src="{{ project.logo.url }}" style="display:block; width:60%; margin:auto;">
+            <img class="img-responsive" src="{{ project.logo.url }}" style="display:block; width:60%; margin:auto;">
             <div class="row">
                 <div class="col-md-6">
                     <p class="image_title" style="text-align:center;">Présent</p>
-                  <img src="{{ project.location_today.url }}" style="display:inline;">
-          </div>
+                    <img class="img-responsive" src="{{ project.location_today.url }}" style="display:inline;">
+                </div>
                 <div class="col-md-6">
                     <p class="image_title" style="text-align:center;">Futur</p>
-                    <img src="{{ project.location_target.url }}" style="display:inline;">
-          </div>
+                    <img class="img-responsive" src="{{ project.location_target.url }}" style="display:inline;">
+                </div>
             </div>
             <!--<div>{% for (key, value) in identity_items.all %} {% endfor %}</div>                        -->
             <div>
 
-            {% for key, value in identity_items.items %}
+                {% for key, value in identity_items.items %}
                 <p class="identity_sub_title">{{ key }}</p>
                 <p class="identity_paragraph">{{ value }}</p>
-            {% endfor %}
+                {% endfor %}
             </div>
         </div>
-        <div class="col-lg-10, size_sheet" style="position: relative;">
-           <img src="{{ project.project_structure.url }}"
-                 class="size_sheet"
+        <div class="col-md-9 col-lg-9 img-responsive" style="position: relative;">
+            <img src="{{ project.project_structure.url }}"
+                 class="img-responsive"
                  style="z-index:-1">
 
             {% for s in project.story_set.all %}
@@ -48,14 +50,14 @@
                    data-placement='auto'
                    title="{{ s.content }}">
                     <img src="{% static 'presentation/images/question.png' %}"
-                         class="question"/>
+                         class="question img-responsive"/>
                 </a>
             </div>
             {% endfor %}
             <!--<script>-->
-                <!--$(document).ready(function(){-->
-                    <!--$('[data-toggle="tooltip"]').tooltip();-->
-                <!--});-->
+            <!--$(document).ready(function(){-->
+            <!--$('[data-toggle="tooltip"]').tooltip();-->
+            <!--});-->
             <!--</script>-->
             <script>
                 $(document).ready(function(){
