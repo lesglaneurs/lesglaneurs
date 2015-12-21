@@ -45,10 +45,12 @@ body{
     alt: "besoin"
 }
 
+/*
 .tooltip-inner {
-    background-color: #00acd6;
-    color: #00acd6;
+    background-color: #F7F7FA;
+    color: #0F0F16;
 }
+*/
 
 .popover{
     width: 400px;

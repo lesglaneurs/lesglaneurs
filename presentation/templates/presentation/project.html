@@ -43,31 +43,25 @@
             {% for s in project.story_set.all %}
             <div class="question" style="left: {{ s.coordinate_x }}%; top: {{ s.coordinate_y }}%;">
                 <a href="#"
-                   data-toggle="popover"
+                   data-toggle="tooltip"
                    data-trigger="hover"
-                   data-placement='right'
-                   data-content="{{ s.content }}">
+                   data-placement='auto'
+                   title="{{ s.content }}">
                     <img src="{% static 'presentation/images/question.png' %}"
                          class="question"/>
                 </a>
             </div>
             {% endfor %}
-            <div class="question" style="left: 50%; top: 50%;">
-                <a href="#"
-                   data-toggle="tooltip"
-                   data-placement='right'
-                   title="Ceci n'est qu'un exemple temporaire à supprimer!
-J'essaie de mettre un long texte pour voir ce que ça fait.">
-                    <img src="{% static 'presentation/images/question.png' %}"
-                         class="question"/>
-                </a>
-            </div>
+            <!--<script>-->
+                <!--$(document).ready(function(){-->
+                    <!--$('[data-toggle="tooltip"]').tooltip();-->
+                <!--});-->
+            <!--</script>-->
             <script>
                 $(document).ready(function(){
                     $('[data-toggle="popover"]').popover();
                 });
             </script>
-
         </div>
     </div>
 </div>
