@@ -4,7 +4,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-      <meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0">
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0">
     <title>Fiche projet {{ project.name }}</title>
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'presentation/css/style.css' %}" rel="stylesheet">
@@ -30,11 +30,17 @@
             </div>
             <!--<div>{% for (key, value) in identity_items.all %} {% endfor %}</div>                        -->
             <div>
-
                 {% for key, value in identity_items.items %}
                 <p class="identity_sub_title">{{ key }}</p>
                 <p class="identity_paragraph">{{ value }}</p>
                 {% endfor %}
+                <p class="identity_sub_title">Site Internet</p>
+                <p class="identity_paragraph">
+                    <a href="{{ project.web_site }}">{{ project.web_site }}</a></p>
+                <p class="identity_sub_title">Email</p>
+                <p class="identity_paragraph">
+                    <a href="mailto:{{ project.web_site }}">
+                    {{ project.email }}</a></p>
             </div>
         </div>
         <div class="col-md-9 col-lg-9 img-responsive" style="position: relative;">

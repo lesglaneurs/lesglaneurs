@@ -27,8 +27,7 @@ def project(request, project_name):
         u'Gérant': project.contact_name,
         'Personnel': project.workers,
         u'Année de création': project.creation_date,
-        'Site internet': project.web_site,
-        'Email': project.email
+        'Structure': project.structure
     })
     # identity_items = [
     #     (u'Gérant', project.contact_name),
