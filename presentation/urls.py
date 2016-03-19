@@ -5,5 +5,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
    #  url(r'^$', 'presentation.views.home', name='home'),
-      url(r'^(?P<project_name>(.*))/$', views.project, name='project'),
+    url(r'^calendar/$', views.calendar, name='calendar'),
+    url(r'^(?P<project_name>(.*))/$', views.project, name='project'),
 )
