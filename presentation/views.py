@@ -20,16 +20,19 @@ def project(request, project_name):
 
     identity_items = OrderedDict({
         u'Gérant': project.contact_name,
-        'Personnel': project.workers,
+        u'Personnel': project.workers,
         u'Année de création': project.creation_date,
-        'Structure': project.structure
+        u'Structure': project.structure
     })
 
-    event = Event.objects.get(project=project)
+    if Event.objects.filter(project=project).exists():
+        events = Event.objects.filter(project=project)
+    else:
+        events = []
 
     return render(request, 'presentation/project.html',
                   {'project':project,
                    'identity_items':identity_items,
-                   'evenement': event
+                   'events_glan': events
                    })
 
