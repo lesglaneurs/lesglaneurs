@@ -2,9 +2,12 @@
 {% load staticfiles %}
 {% static "presentation/images/" as images %}
 <html>
-<head lang="en">
+    <head lang="fr">
     <meta charset="UTF-8">
     <meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0">
+
+    <title>Generic calendar</title>
+
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
     <link rel="stylesheet" href="{% static 'presentation/css/style.css' %}" >
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.css">
@@ -15,27 +18,13 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/lang/fr.js"></script>
 
-    <title>Generic calendar</title>
-       <script type="text/javascript">$(document).ready(function()
+   <script type="text/javascript">$(document).ready(function()
         {
             $('#calendar').fullCalendar(
             {
-                //Events data
-                events:
-                [
-                    {% for event_glan in events_glan %}
-                    {
-                        title:'{{event_glan.name}}',
-                        textColor:'white',
-                        color:'purple',
-                        start:'{{event_glan.start_date|date:"Y-m-d"}}',
-                        end:'{{event_glan.end_date|date:"Y-m-d"}}',
-                        description:"Coucou"
-                        +" &amp;chario"
-                        },
-                    {%endfor%}
-                    {start:'1990-01-01'}
-                ],
+                //Event's info - JSON
+                events:"events/",
+
                 //Calendar Config
                 firstDay:1, //start with Monday
                 lang:"fr",  //French
@@ -47,11 +36,13 @@
                 height:"auto", //show all weeks with no scrollbar
                 fixedWeekCount:false, //adjust number of weeks 4, 5 or 6 automatically
                 theme:false,   //can be overwridden with JQuery themes to change bottons format
+
                 //Calendar Function
                  eventClick:function(event, jsEvent, view)
                  {
                     $('#modalTitle').html(event.title);
                     $('#modalBody').html(event.description);
+                    $('#link').html(event.link);
                     $('#fullcalmodal').modal();
                  }
             })
@@ -68,8 +59,12 @@
 
                                     </h4>
                                 </div>
-                                <div id="modalBody" class="modal-body">
-
+                                <div class="modal-body">
+                                    <p id="modalBody">
+                                    </p>
+                                    <a id="link" href="link"></a>
+                                </div>
+                                <div class="modal-footer">
                                 </div>
                             </div>
                         </div>

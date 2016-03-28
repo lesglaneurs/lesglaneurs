@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404
 from .models import Project, Story, Event
 from django.utils.datastructures import OrderedDict
+from django.http import JsonResponse
 
 def home(request):
     return render(request, 'presentation/home.html')
@@ -36,3 +37,20 @@ def project(request, project_name):
                    'events_glan': events
                    })
 
+
+def events(request):
+    events = Event.objects.all()
+    calendar_events = []
+    for event in events:
+        project = get_object_or_404(Project, name=event.project)
+        description = str(event.project) + event.description
+        calendar_events.append(
+        {
+            'title':event.name,
+            'start':event.start_date.date(),
+            'end':event.end_date.date(),
+            'description':description,
+            'email':project.email,
+            'web_site':project.web_site
+        })
+    return JsonResponse(calendar_events, safe=False)
