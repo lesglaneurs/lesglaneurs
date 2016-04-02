@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 
 # Create your models here.
@@ -7,21 +8,21 @@ def user_directory_path(instance, filename):
 
 class Project(models.Model):
     name = models.CharField(null=True,max_length=100, help_text="Le nom du projet")
-    owner_image = models.ImageField(null=True,upload_to=user_directory_path)
+    owner_image = models.ImageField(null=True, upload_to=user_directory_path, help_text="Photo du chef du projet")
     # creation_date = models.DecimalField(max_digits=8, decimal_places=0, default='9999')
-    creation_date = models.PositiveIntegerField(null=True)
-    contact_name = models.CharField(null=True,max_length=100)
-    email = models.EmailField(null=True)
+    creation_date = models.PositiveIntegerField(null=True, help_text="date de création")
+    contact_name = models.CharField(null=True,max_length=100, help_text="nom du contact de référence")
+    email = models.EmailField(null=True, help_text="email de contact")
     # telephone = models.DecimalField(max_digits=10, decimal_places=0, default='0600000000')
-    telephone = models.IntegerField(null=True)
-    web_site = models.URLField(null=True)
+    telephone = models.CharField(null=True, max_length=14, help_text="numéro de téléphone")
+    web_site = models.URLField(null=True, help_text="site Web du projet")
 
-    structure = models.CharField(null=True,max_length=100)
-    location_today = models.ImageField(null=True,upload_to=user_directory_path)
-    location_target = models.ImageField(null=True,upload_to=user_directory_path)
-    logo = models.ImageField(null=True,upload_to=user_directory_path)
-    project_structure = models.ImageField(null=True,upload_to=user_directory_path)
-    workers = models.TextField(null=True)
+    structure = models.CharField(null=True,max_length=100, help_text="structure administrative du projet")
+    location_today = models.ImageField(null=True, upload_to=user_directory_path, help_text="présence du projet aujourd'hui")
+    location_target = models.ImageField(null=True, upload_to=user_directory_path, help_text="prévision d'évolution géographique")
+    logo = models.ImageField(null=True, upload_to=user_directory_path, help_text="photo du logo du projet")
+    project_structure = models.ImageField(null=True, upload_to=user_directory_path, help_text="image de la strcuture globale du projet")
+    workers = models.TextField(null=True, help_text="participants au projet - bénévols, salariés")
 
     def __unicode__(self):
         return unicode(self.name)

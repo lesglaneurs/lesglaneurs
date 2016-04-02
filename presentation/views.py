@@ -43,14 +43,22 @@ def events(request):
     calendar_events = []
     for event in events:
         project = get_object_or_404(Project, name=event.project)
-        description = str(event.project) + event.description
         calendar_events.append(
         {
-            'title':event.name,
-            'start':event.start_date.date(),
-            'end':event.end_date.date(),
-            'description':description,
-            'email':project.email,
-            'web_site':project.web_site
+            'title': event.name,
+            'start': event.start_date.date(),
+            'end': event.end_date.date(),
+            'description': event.description,
+            'project_name': project.name,
+            'project_logo': project.logo.url,
+            #'place': event.place,
+            'contact_name': project.contact_name,
+            'contact_phone':project.telephone,
+            'contact_email':project.email,
+            #'inscription': "obligatoire",
+            #'event_details_link': event.website,
+            'project_site': project.web_site
         })
     return JsonResponse(calendar_events, safe=False)
+
+

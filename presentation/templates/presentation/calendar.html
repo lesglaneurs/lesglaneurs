@@ -40,10 +40,28 @@
                 //Calendar Function
                  eventClick:function(event, jsEvent, view)
                  {
-                    $('#modalTitle').html(event.title);
-                    $('#modalBody').html(event.description);
-                    $('#link').html(event.link);
+                    //Title
+                    document.getElementById('event_title').innerHTML = event.title;
+                    document.getElementById('project_logo').src = event.project_logo;
+                    document.getElementById('project_logo').innerHTML = event.title;
+                    //Description & details
+                    $('#event_description').html(event.description);
+                    $('#project_name').html(event.project_name);
+                    //$('#event_place').html(event.place);
+                    $('#contact_name').html(event.contact_name);
+                    $('#contact_phone').html(event.contact_phone);
+                    $('#contact_email').html(event.contact_email);
+                    //$('#inscription').html(event.inscription);
+                    document.getElementById('project_site').href = event.project_site;
+
+                    $('#project_site').html(event.project_site);
                     $('#fullcalmodal').modal();
+
+                    // debug info :
+//                    alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+//                    alert('View: ' + view.name);
+                    // change the border color just for fun
+//                    $(this).css('border-color', 'red');
                  }
             })
         })
@@ -55,14 +73,34 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 id="modalTitle" class="modal-title">
-
-                                    </h4>
+                                   <p style="float:middle" class="modal-title">
+                                        <span id="event_title" style="position:absolute; margin-top:10%">
+                                        </span>
+                                        <img id="project_logo" style="float:left">
+                                    </p>
                                 </div>
                                 <div class="modal-body">
-                                    <p id="modalBody">
-                                    </p>
-                                    <a id="link" href="link"></a>
+                                    <p id="event_description"></p>
+
+                                    <span class="identity_sub_title">Organisé par :</span>
+                                    <span class="identity_paragraph" id="project_name"></span><br>
+
+                                    <span class="identity_sub_title">Contact :</span>
+                                    <span class="identity_paragraph" id="contact_name"></span><br>
+
+                                    <span class="identity_sub_title">Email :</span>
+                                    <span class="identity_paragraph" id="contact_email"></span><br>
+
+                                    <span class="identity_sub_title">Téléphone :</span>
+                                    <span class="identity_paragraph" id="contact_phone"></span><br>
+
+                                    <!--<p id="event_place"></p>-->
+                                    <!--<p id="inscription"></p>-->
+                                    <!--<p id="event_details_link"></p>-->
+                                    <span class="identity_sub_title">Site Internet :</span>
+                                    <a class="identity_paragraph" id="project_site" target="_blank"></a><br>
+
+                                    <!--<a id="link" href="link"></a>-->
                                 </div>
                                 <div class="modal-footer">
                                 </div>
