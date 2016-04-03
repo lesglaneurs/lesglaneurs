@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Project, Story, Event
 from django.utils.datastructures import OrderedDict
 from django.http import JsonResponse
+from django.core import serializers
 
 def home(request):
     return render(request, 'presentation/home.html')
@@ -15,27 +16,30 @@ def calendar(request):
 def test(request):
     return render(request, 'presentation/test.html')
 
-def project(request, project_name):
-    project = get_object_or_404(Project, name=project_name)
-    #stories = project.objects.get().all()
+def projects(request, project_id=None):
+    if project_id:
+        project = get_object_or_404(Project, id=project_id)
 
-    identity_items = OrderedDict({
-        u'Gérant': project.contact_name,
-        u'Personnel': project.workers,
-        u'Année de création': project.creation_date,
-        u'Structure': project.structure
-    })
+        identity_items = OrderedDict({
+            u'Gérant': project.contact_name,
+            u'Personnel': project.workers,
+            u'Année de création': project.creation_date,
+            u'Structure': project.structure
+        })
 
-    if Event.objects.filter(project=project).exists():
-        events = Event.objects.filter(project=project)
+        if Event.objects.filter(project=project).exists():
+            events = Event.objects.filter(project=project)
+        else:
+            events = []
+
+        return render(request, 'presentation/project.html',
+                      {u'project':project,
+                       u'identity_items':identity_items,
+                       u'events_glan': events
+                       })
     else:
-        events = []
-
-    return render(request, 'presentation/project.html',
-                  {'project':project,
-                   'identity_items':identity_items,
-                   'events_glan': events
-                   })
+         projects = serializers.serialize("json", Project.objects.all())
+         return JsonResponse(projects, safe=False)
 
 
 def events(request):
