@@ -4,6 +4,12 @@ from . import views
 admin.autodiscover()
 
 urlpatterns = patterns('',
-   #  url(r'^$', 'presentation.views.home', name='home'),
-      url(r'^(?P<project_name>(.*))/$', views.project, name='project'),
+                       #  url(r'^$', 'presentation.views.home', name='home'),
+                       url(r'^events/$', views.events, name='events'),
+                       url(r'^projects/$', views.projects, name='projects'),
+                       url(r'^projects/(?P<project_id>[0-9]{1})?/$', views.projects, name='projects'),
+                       url(r'^calendar.html', views.calendar, name='calendar'),
 )
+
+
+
