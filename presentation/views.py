@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
 from django.shortcuts import render, get_object_or_404
 from .models import Project, Story, Event
 from django.utils.datastructures import OrderedDict
@@ -11,6 +12,18 @@ def home(request):
 
 def map(request):
     return render(request, 'presentation/map.html')
+
+def points(request):
+    result = {'points':
+              [{'name': "Saint-Pierre d'Aurillac",
+                'coords': [44.572329, -0.19046500000001743]},
+               {'name': 'Paris',
+                'coords': [48.856614, 2.3522219000000177]},
+               {'name': 'Guiseniers',
+                'coords': [49.21267599999999, 1.4749530000000277]},
+              ],
+    }
+    return JsonResponse(result)
 
 def calendar(request):
     events_glan = Event.objects.all()

@@ -9,4 +9,6 @@ urlpatterns = patterns('',
                        url(r'^projects/$', views.projects, name='projects'),
                        url(r'^projects/(?P<project_id>[0-9]{1})?/$', views.projects, name='projects'),
                        url(r'^calendar.html', views.calendar, name='calendar'),
-                       url(r'^map', views.map, name='map'),)
+                       url(r'^map', views.map, name='map'),
+                       url(r'^points', views.points, name='points'),
+)
