@@ -11,3 +11,14 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
     // This token is assigned to the user jpnoel (email: jpnoel@gmail.com) - See https://www.mapbox.com/studio/account/tokens/
     accessToken: 'pk.eyJ1IjoianBub2VsIiwiYSI6ImNpbXo5MGdnejAwbG92OWx5amt5cWV4ejAifQ.vJAEgiLq2bdVEGld5mau5A'
 }).addTo(map);
+
+var saint_pierre_d_aurillac = [44.572329, -0.19046500000001743]
+var paris = [48.856614, 2.3522219000000177]
+var guiseniers = [49.21267599999999, 1.4749530000000277]
+
+var points = [saint_pierre_d_aurillac, paris, guiseniers]
+
+for (var index in points) {
+    var point = points[index]
+    L.marker(point).addTo(map);
+}
