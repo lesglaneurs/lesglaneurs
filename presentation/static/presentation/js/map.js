@@ -20,5 +20,12 @@ var points = [saint_pierre_d_aurillac, paris, guiseniers]
 
 for (var index in points) {
     var point = points[index]
-    L.marker(point).addTo(map);
+    var marker = L.marker(point).addTo(map);
+    marker.bindPopup("<b>Hello world!</b><br>I am a popup.")
+    marker.on('mouseover', function (e) {
+        this.openPopup();
+    });
+    marker.on('mouseout', function (e) {
+        this.closePopup();
+    });
 }
