@@ -9,6 +9,9 @@ from django.core import serializers
 def home(request):
     return render(request, 'presentation/home.html')
 
+def map(request):
+    return render(request, 'presentation/map.html')
+
 def calendar(request):
     events_glan = Event.objects.all()
     return render(request, 'presentation/calendar.html', {'events_glan' : events_glan})
@@ -64,5 +67,3 @@ def events(request):
             'project_site': project.web_site
         })
     return JsonResponse(calendar_events, safe=False)
-
-

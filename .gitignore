@@ -56,3 +56,11 @@ docs/_build/
 # PyBuilder
 target/
 
+# Emacs backup files
+*~
+
+# sqlite database
+*.sqlite3
+
+# migrations files
+*/migrations/*
