@@ -14,16 +14,14 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
     accessToken: 'pk.eyJ1IjoianBub2VsIiwiYSI6ImNpbXo5MGdnejAwbG92OWx5amt5cWV4ejAifQ.vJAEgiLq2bdVEGld5mau5A'
 }).addTo(map);
 
-var saint_pierre_d_aurillac = [44.572329, -0.19046500000001743];
-var paris = [48.856614, 2.3522219000000177];
-var guiseniers = [49.21267599999999, 1.4749530000000277];
-
-var points = [saint_pierre_d_aurillac, paris, guiseniers];
+var points = [{'name': "Saint-Pierre d'Aurillac", 'coords': [44.572329, -0.19046500000001743]},
+              {'name': 'Paris', 'coords': [48.856614, 2.3522219000000177]},
+              {'name': 'Guiseniers', 'coords': [49.21267599999999, 1.4749530000000277]}]
 
 for (var index in points) {
     var point = points[index];
-    var marker = L.marker(point).addTo(map);
-    marker.bindPopup("<b>Hello world!</b><br>I am a popup.");
+    var marker = L.marker(point['coords']).addTo(map);
+    marker.bindPopup('Je suis <b>' + point['name'] + '</b>');
     marker.on('mouseover', function (e) {
         this.openPopup();
     });
