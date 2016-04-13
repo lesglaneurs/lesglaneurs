@@ -1,10 +1,20 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
+
+<head>
+
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
+  <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+  <link rel="stylesheet" href="{% static 'presentation/css/map.css' %}"/>
+
+</head>
+
 <body>
-
-<h1>My First Heading</h1>
-
-<p>My first paragraph.</p>
-
+<div id="mapid"></div>
+<!-- The script below must be included after the declaration of the map container -->
+<script src="{% static 'presentation/js/map.js' %}"></script>
 </body>
+
 </html>

@@ -6,4 +6,4 @@ class PagesTests(TestCase):
     def test_map_page(self):
         response = self.client.get(reverse('map'))
         self.assertEqual(200, response.status_code)
-        self.assertEqual('My First Heading' in response.content, True)
+        self.assertEqual('mapid' in response.content, True)
