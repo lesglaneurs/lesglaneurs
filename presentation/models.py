@@ -45,3 +45,17 @@ class Event(models.Model):
     project = models.ForeignKey(Project, null=True)
     def __unicode__(self):
         return self.name
+
+class Address(models.Model):
+    address = models.CharField(max_length=500, null=True, blank=True)
+    code = models.CharField(max_length=5)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    country = models.CharField(max_length=100, default="France")
+    latitude = models.DecimalField(decimal_places=15, max_digits=18, blank=True)
+    longitude = models.DecimalField(decimal_places=15, max_digits=18, blank=True)
+    def __unicode__(self):
+        return self.address + ' ' + self.code + ' ' + self.city
+
+class EventAddress(models.Model):
+    address = models.ForeignKey(Address)
+    event = models.ForeignKey(Event)
