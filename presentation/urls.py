@@ -12,5 +12,6 @@ urlpatterns = patterns('',
                        url(r'^map$', views.map, name='map'),
                        url(r'^map_addresses', views.map_addresses, name='map_addresses'),
                        url(r'^map_events', views.map_events, name='map_events'),
-                       url(r'^populate', views.populate, name='populate'),
+                       url(r'^empty_db', views.empty_db, name='empty_db'),
+                       url(r'^populate_db', views.populate_db, name='populate_db'),
 )

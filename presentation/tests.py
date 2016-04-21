@@ -13,13 +13,19 @@ class PagesTests(TestCase):
         self.assertEqual('mapid' in response.content, True)
 
     def test_map_addresses(self):
-        self.populate()
+        self.empty_db()
+        response = self.client.get(reverse('map_events'))
+        self.assertEqual(200, response.status_code)
+        self.populate_db()
         response = self.client.get(reverse('map_addresses'))
         self.assertEqual(200, response.status_code)
         self.assertEqual(len(json.loads(response.content)['addresses']), 3)
 
     def test_map_events(self):
-        self.populate()
+        self.empty_db()
+        response = self.client.get(reverse('map_events'))
+        self.assertEqual(200, response.status_code)
+        self.populate_db()
         response = self.client.get(reverse('map_events'))
         self.assertEqual(200, response.status_code)
         events = json.loads(response.content)['events']
@@ -31,8 +37,8 @@ class PagesTests(TestCase):
             for address in addresses:
                 self.assertEqual(address['fields']['country'], 'France')
 
-    def populate(self):
-        response = self.client.get(reverse('populate'))
+    def populate_db(self):
+        response = self.client.get(reverse('populate_db'))
         self.assertEqual(200, response.status_code)
 
         self.assertEqual(len(Project.objects.all()), 3)
@@ -46,3 +52,10 @@ class PagesTests(TestCase):
         self.assertEqual(len(events), 3)
         for event in events:
             self.assertEqual(isinstance(event.project, Project), True)
+
+    def empty_db(self):
+        response = self.client.get(reverse('empty_db'))
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(len(Project.objects.all()), 0)
+        self.assertEqual(len(Address.objects.all()), 0)
+        self.assertEqual(len(Event.objects.all()), 0)

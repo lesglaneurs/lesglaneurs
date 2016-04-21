@@ -25,9 +25,15 @@ def home(request):
 def map(request):
     return render(request, 'presentation/map.html')
 
-def populate(request):
-
+def empty_db(request):
     Project.objects.all().delete()
+    Address.objects.all().delete()
+    Event.objects.all().delete()
+    return HttpResponse()
+
+def populate_db(request):
+    empty_db(request)
+
     projects = [u'Association de Guiseniers',
                 u"Association de Saint-Pierre d'Aurillac",
                 u'Association de Paris',
@@ -64,8 +70,6 @@ def populate(request):
                             start_date=now,
                             end_date=now) for event in events]
 
-    Address.objects.all().delete()
-    Event.objects.all().delete()
     for project_record, address_record, event_record in \
         izip(projects_records, addresses_records, events_records):
         project_record.save()
