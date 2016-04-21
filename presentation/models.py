@@ -34,6 +34,7 @@ class Story(models.Model):
     content = models.TextField()
     coordinate_x = models.IntegerField()
     coordinate_y = models.IntegerField()
+
     def __unicode__(self):
         return unicode(self.description)
 
@@ -43,6 +44,7 @@ class Event(models.Model):
     end_date = models.DateTimeField()
     description = models.TextField(null=True, max_length=1000)
     project = models.ForeignKey(Project, null=True)
+
     def __unicode__(self):
         return self.name
 
@@ -53,9 +55,7 @@ class Address(models.Model):
     country = models.CharField(max_length=100, default="France")
     latitude = models.DecimalField(decimal_places=15, max_digits=18, blank=True)
     longitude = models.DecimalField(decimal_places=15, max_digits=18, blank=True)
+    events = models.ManyToManyField(Event)
+
     def __unicode__(self):
         return self.address + ' ' + self.code + ' ' + self.city
-
-class EventAddress(models.Model):
-    address = models.ForeignKey(Address)
-    event = models.ForeignKey(Event)

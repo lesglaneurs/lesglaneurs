@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render, get_object_or_404
-from .models import Address, Project, Story, Event
-from django.utils.datastructures import OrderedDict
-from django.http import HttpResponse, JsonResponse
+from itertools import izip
+
 from django.core import serializers
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
+from django.utils.datastructures import OrderedDict
+
+from .models import Address, Project, Story, Event
 
 def home(request):
     return render(request, 'presentation/home.html')
@@ -16,33 +20,50 @@ def map(request):
 def populate(request):
 
     Project.objects.all().delete()
-    names = ['Association de Guiseniers',
-             "Association de Saint-Pierre d'Aurillac",
-             'Association de Paris']
+    names = [u'Association de Guiseniers',
+             u"Association de Saint-Pierre d'Aurillac",
+             u'Association de Paris',
+    ]
     [Project(name=name).save() for name in names]
 
-    addresses = [{'address': '11 lot des noisetiers',
-                  'code': '33490',
-                  'city': "Saint-Pierre d'Aurillac",
-                  'coords': [44.572329, -0.19046500000001743]
-                  },
-                 {'address': '72, rue de Rennes',
-                  'code': '75006',
-                  'city': 'Paris',
-                  'coords': [48.856614, 2.3522219000000177]},
-                 {'address': '34, rue Jules Pedron',
-                  'code': '27700',
-                  'city': 'Guiseniers',
+    addresses = [{'address': u'34, rue Jules Pedron',
+                  'code': u'27700',
+                  'city': u'Guiseniers',
                   'coords': [49.21267599999999, 1.4749530000000277]},
-             ]
+                 {'address': u'11 lot des noisetiers',
+                  'code': u'33490',
+                  'city': u"Saint-Pierre d'Aurillac",
+                  'coords': [44.572329, -0.19046500000001743]},
+                 {'address': u'72, rue de Rennes',
+                  'code': u'75006',
+                  'city': u'Paris',
+                  'coords': [48.856614, 2.3522219000000177]},
+    ]
+
+    addresses_records =  [Address(address=address['address'],
+                                  code=address['code'],
+                                  city=address['city'],
+                                  latitude=address['coords'][0],
+                                  longitude=address['coords'][1])
+                          for address in addresses]
+
+    now = timezone.now()
+    events = [(u'Evènement à Guinesiers',),
+              (u"Evènement à Saint-Pierre d'Aurillac",),
+              (u'Evènement à Paris',),
+    ]
+    events_records = [Event(name=event[0],
+                            start_date=now,
+                            end_date=now) for event in events]
 
     Address.objects.all().delete()
-    [Address(address=address['address'],
-             code=address['code'],
-             city=address['city'],
-             latitude=address['coords'][0],
-             longitude=address['coords'][1]).save()
-     for address in addresses]
+    Event.objects.all().delete()
+    for address_record, event_record in \
+        izip(addresses_records, events_records):
+        address_record.save()
+        event_record.save()
+        address_record.events.add(event_record)
+        address_record.save()
 
     return HttpResponse()
 
