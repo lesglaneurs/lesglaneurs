@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404
 from .models import Project, Story, Event
 from django.utils.datastructures import OrderedDict
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 
 def home(request):
@@ -12,6 +12,14 @@ def home(request):
 
 def map(request):
     return render(request, 'presentation/map.html')
+
+def populate(request):
+    Project.objects.all().delete()
+    names = ['Association de Guiseniers',
+             "Association de Saint-Pierre d'Aurillac",
+             'Association de Paris']
+    [Project(name=name).save() for name in names]
+    return HttpResponse()
 
 def points(request):
     result = {'points':

@@ -11,4 +11,5 @@ urlpatterns = patterns('',
                        url(r'^calendar.html', views.calendar, name='calendar'),
                        url(r'^map', views.map, name='map'),
                        url(r'^points', views.points, name='points'),
+                       url(r'^populate', views.populate, name='populate'),
 )
