@@ -14,11 +14,32 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
     accessToken: 'pk.eyJ1IjoianBub2VsIiwiYSI6ImNpbXo5MGdnejAwbG92OWx5amt5cWV4ejAifQ.vJAEgiLq2bdVEGld5mau5A'
 }).addTo(map);
 
-$.getJSON('map_addresses', function(data) {
-    $.each(data['addresses'], function(i, address) {
+function display_address(index, address) {
+    var marker = L.marker([address.fields.latitude,
+                           address.fields.longitude]).addTo(map);
+    var content = '' +
+        '<b>Adresse</b> : ' + address.fields.address + '</br>' +
+        '<b>Ville</b> : ' + address.fields.city + '</br>' +
+        '<b>Code postal</b> : ' + address.fields.code
+    marker.bindPopup(content);
+    marker.on('mouseover', function (e) {
+        this.openPopup();
+    });
+    marker.on('mouseout', function (e) {
+        this.closePopup();
+    });
+}
+
+function display_event(index, event) {
+    var addresses = event.addresses
+    var content = '' +
+        '<b>Nom</b>: ' + event.name + '</br>' +
+        '<b>Association</b>: ' + event.project.fields.name + '</br>'
+    for (var index in addresses) {
+        var address = addresses[index]
         var marker = L.marker([address.fields.latitude,
                                address.fields.longitude]).addTo(map);
-        var content = '' +
+        var content = content +
             '<b>Adresse</b> : ' + address.fields.address + '</br>' +
             '<b>Ville</b> : ' + address.fields.city + '</br>' +
             '<b>Code postal</b> : ' + address.fields.code
@@ -29,7 +50,23 @@ $.getJSON('map_addresses', function(data) {
         marker.on('mouseout', function (e) {
             this.closePopup();
         });
-    })
-}).fail(function() {
-    console.log('fail');
-})
+    }
+}
+
+//var display = 'addresses'
+var display = 'events'
+
+if (display === 'addresses') {
+    $.getJSON('map_addresses', function(data) {
+        $.each(data['addresses'], display_address)
+            }).fail(function() {
+                console.log('fail');
+            })
+}
+else {
+    $.getJSON('map_events', function(data) {
+        $.each(data['events'], display_event)
+            }).fail(function() {
+                console.log('fail');
+            })
+}
