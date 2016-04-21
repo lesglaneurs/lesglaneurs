@@ -1,5 +1,8 @@
+import json
+
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+
 from .models import Project, Address, Event
 
 class PagesTests(TestCase):
@@ -9,7 +12,13 @@ class PagesTests(TestCase):
         self.assertEqual(200, response.status_code)
         self.assertEqual('mapid' in response.content, True)
 
-    def test_populate(self):
+    def test_addresses(self):
+        self.populate()
+        response = self.client.get(reverse('addresses'))
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(len(json.loads(response.content)['addresses']), 3)
+
+    def populate(self):
         response = self.client.get(reverse('populate'))
         self.assertEqual(200, response.status_code)
 

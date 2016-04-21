@@ -14,10 +14,15 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
     accessToken: 'pk.eyJ1IjoianBub2VsIiwiYSI6ImNpbXo5MGdnejAwbG92OWx5amt5cWV4ejAifQ.vJAEgiLq2bdVEGld5mau5A'
 }).addTo(map);
 
-$.getJSON('points', function(data) {
-    $.each(data['points'], function(i, point) {
-        var marker = L.marker(point['coords']).addTo(map);
-        marker.bindPopup('Je suis <b>' + point['name'] + '</b>');
+$.getJSON('addresses', function(data) {
+    $.each(data['addresses'], function(i, address) {
+        var marker = L.marker([address.fields.latitude,
+                               address.fields.longitude]).addTo(map);
+        var content = '' +
+            '<b>Adresse</b> : ' + address.fields.address + '</br>' +
+            '<b>Ville</b> : ' + address.fields.city + '</br>' +
+            '<b>Code postal</b> : ' + address.fields.code
+        marker.bindPopup(content);
         marker.on('mouseover', function (e) {
             this.openPopup();
         });
