@@ -62,8 +62,5 @@ target/
 # sqlite database
 *.sqlite3
 
-# migrations files
-*/migrations/*
-
 # static files
 static/*
