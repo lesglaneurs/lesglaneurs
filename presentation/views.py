@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, get_object_or_404
-from .models import Project, Story, Event
+from .models import Address, Project, Story, Event
 from django.utils.datastructures import OrderedDict
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
@@ -14,11 +14,36 @@ def map(request):
     return render(request, 'presentation/map.html')
 
 def populate(request):
+
     Project.objects.all().delete()
     names = ['Association de Guiseniers',
              "Association de Saint-Pierre d'Aurillac",
              'Association de Paris']
     [Project(name=name).save() for name in names]
+
+    addresses = [{'address': '11 lot des noisetiers',
+                  'code': '33490',
+                  'city': "Saint-Pierre d'Aurillac",
+                  'coords': [44.572329, -0.19046500000001743]
+                  },
+                 {'address': '72, rue de Rennes',
+                  'code': '75006',
+                  'city': 'Paris',
+                  'coords': [48.856614, 2.3522219000000177]},
+                 {'address': '34, rue Jules Pedron',
+                  'code': '27700',
+                  'city': 'Guiseniers',
+                  'coords': [49.21267599999999, 1.4749530000000277]},
+             ]
+
+    Address.objects.all().delete()
+    [Address(address=address['address'],
+             code=address['code'],
+             city=address['city'],
+             latitude=address['coords'][0],
+             longitude=address['coords'][1]).save()
+     for address in addresses]
+
     return HttpResponse()
 
 def points(request):
