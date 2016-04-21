@@ -14,7 +14,7 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
     accessToken: 'pk.eyJ1IjoianBub2VsIiwiYSI6ImNpbXo5MGdnejAwbG92OWx5amt5cWV4ejAifQ.vJAEgiLq2bdVEGld5mau5A'
 }).addTo(map);
 
-$.getJSON('addresses', function(data) {
+$.getJSON('map_addresses', function(data) {
     $.each(data['addresses'], function(i, address) {
         var marker = L.marker([address.fields.latitude,
                                address.fields.longitude]).addTo(map);

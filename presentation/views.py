@@ -12,6 +12,13 @@ from django.utils.datastructures import OrderedDict
 
 from .models import Address, Project, Story, Event
 
+def jsonify(objects):
+    if hasattr(objects, '__iter__'):
+        return json.loads(serializers.serialize('json', objects))
+    else:
+        [result] = json.loads(serializers.serialize('json', [objects]))
+        return result
+
 def home(request):
     return render(request, 'presentation/home.html')
 
@@ -70,10 +77,17 @@ def populate(request):
 
     return HttpResponse()
 
-def addresses(request):
-    output = serializers.serialize("json", Address.objects.all())
-    output = {'addresses': json.loads(output)}
-    return JsonResponse(output)
+def map_events(request):
+    events = [{'name': event.name,
+               'start_date': event.start_date,
+               'end_date': event.end_date,
+               'addresses': jsonify(event.address_set.all()),
+               'project': jsonify(event.project)}
+              for event in Event.objects.all()]
+    return JsonResponse({'events': events})
+
+def map_addresses(request):
+    return JsonResponse({'addresses': jsonify(Address.objects.all())})
 
 def calendar(request):
     events_glan = Event.objects.all()

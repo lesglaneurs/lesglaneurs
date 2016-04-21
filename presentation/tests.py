@@ -12,11 +12,24 @@ class PagesTests(TestCase):
         self.assertEqual(200, response.status_code)
         self.assertEqual('mapid' in response.content, True)
 
-    def test_addresses(self):
+    def test_map_addresses(self):
         self.populate()
-        response = self.client.get(reverse('addresses'))
+        response = self.client.get(reverse('map_addresses'))
         self.assertEqual(200, response.status_code)
         self.assertEqual(len(json.loads(response.content)['addresses']), 3)
+
+    def test_map_events(self):
+        self.populate()
+        response = self.client.get(reverse('map_events'))
+        self.assertEqual(200, response.status_code)
+        events = json.loads(response.content)['events']
+        self.assertEqual(len(events), 3)
+        for event in events:
+            project_name = event['project']['fields']['name']
+            self.assertEqual(project_name.startswith('Association'), True)
+            addresses = event['addresses']
+            for address in addresses:
+                self.assertEqual(address['fields']['country'], 'France')
 
     def populate(self):
         response = self.client.get(reverse('populate'))
