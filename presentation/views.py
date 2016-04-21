@@ -20,11 +20,11 @@ def map(request):
 def populate(request):
 
     Project.objects.all().delete()
-    names = [u'Association de Guiseniers',
-             u"Association de Saint-Pierre d'Aurillac",
-             u'Association de Paris',
+    projects = [u'Association de Guiseniers',
+                u"Association de Saint-Pierre d'Aurillac",
+                u'Association de Paris',
     ]
-    [Project(name=name).save() for name in names]
+    projects_records = [Project(name=project) for project in projects]
 
     addresses = [{'address': u'34, rue Jules Pedron',
                   'code': u'27700',
@@ -48,19 +48,21 @@ def populate(request):
                           for address in addresses]
 
     now = timezone.now()
-    events = [(u'Evènement à Guinesiers',),
-              (u"Evènement à Saint-Pierre d'Aurillac",),
-              (u'Evènement à Paris',),
+    events = [u'Evènement à Guinesiers',
+              u"Evènement à Saint-Pierre d'Aurillac",
+              u'Evènement à Paris',
     ]
-    events_records = [Event(name=event[0],
+    events_records = [Event(name=event,
                             start_date=now,
                             end_date=now) for event in events]
 
     Address.objects.all().delete()
     Event.objects.all().delete()
-    for address_record, event_record in \
-        izip(addresses_records, events_records):
+    for project_record, address_record, event_record in \
+        izip(projects_records, addresses_records, events_records):
+        project_record.save()
         address_record.save()
+        event_record.project = project_record
         event_record.save()
         address_record.events.add(event_record)
         address_record.save()

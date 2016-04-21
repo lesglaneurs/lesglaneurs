@@ -20,4 +20,7 @@ class PagesTests(TestCase):
         for address in addresses:
             self.assertEqual(len(address.events.all()), 1)
 
-        self.assertEqual(len(Event.objects.all()), 3)
+        events = Event.objects.all()
+        self.assertEqual(len(events), 3)
+        for event in events:
+            self.assertEqual(isinstance(event.project, Project), True)
