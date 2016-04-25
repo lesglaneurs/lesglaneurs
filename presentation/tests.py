@@ -16,7 +16,7 @@ class PagesTests(TestCase):
         self.empty_db()
         response = self.client.get(reverse('map_events'))
         self.assertEqual(200, response.status_code)
-        self.populate_db()
+        self.populate_db_with_small_data()
         response = self.client.get(reverse('map_addresses'))
         self.assertEqual(200, response.status_code)
         self.assertEqual(len(json.loads(response.content)['addresses']), 3)
@@ -25,7 +25,7 @@ class PagesTests(TestCase):
         self.empty_db()
         response = self.client.get(reverse('map_events'))
         self.assertEqual(200, response.status_code)
-        self.populate_db()
+        self.populate_db_with_small_data()
         response = self.client.get(reverse('map_events'))
         self.assertEqual(200, response.status_code)
         events = json.loads(response.content)['events']
@@ -37,8 +37,8 @@ class PagesTests(TestCase):
             for address in addresses:
                 self.assertEqual(address['fields']['country'], 'France')
 
-    def populate_db(self):
-        response = self.client.get(reverse('populate_db'))
+    def populate_db_with_small_data(self):
+        response = self.client.get(reverse('populate_db_with_small_data'))
         self.assertEqual(200, response.status_code)
 
         self.assertEqual(len(Project.objects.all()), 3)

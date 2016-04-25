@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import csv
 from itertools import izip
 import json
+import os
 
+from django.conf import settings
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
@@ -31,15 +34,7 @@ def empty_db(request):
     Event.objects.all().delete()
     return HttpResponse()
 
-def populate_db(request):
-    empty_db(request)
-
-    projects = [u'Association de Guiseniers',
-                u"Association de Saint-Pierre d'Aurillac",
-                u'Association de Paris',
-    ]
-    projects_records = [Project(name=project) for project in projects]
-
+def populate_db_with_small_data(request):
     addresses = [{'address': u'34, rue Jules Pedron',
                   'city': u'Guiseniers',
                   'code': u'27700',
@@ -53,6 +48,30 @@ def populate_db(request):
                   'code': u'75006',
                   'coords': [48.856614, 2.3522219000000177]},
     ]
+    return populate_db(addresses)
+
+def populate_db_with_big_data(request):
+    addresses = []
+    path = os.path.join(settings.STATIC_ROOT, 'villes_france.csv')
+    with open(path) as csvfile:
+        reader = csv.reader(csvfile)
+        departments = []
+        for row in reader:
+            department = row[1]
+            if department not in departments:
+                departments.append(department)
+                address = {'address': '1, Place de la Mairie',
+                           'city': row[5].decode('utf-8'),
+                           'code': row[10],
+                           'coords': [float(row[20].replace(',', '.')),
+                                      float(row[19].replace(',', '.'))]}
+                addresses.append(address)
+
+    return populate_db(addresses)
+
+def populate_db(addresses):
+
+    empty_db(None)
 
     addresses_records =  [Address(address=address['address'],
                                   code=address['code'],
@@ -62,22 +81,22 @@ def populate_db(request):
                           for address in addresses]
 
     now = timezone.now()
-    events = [u'Evènement à Guinesiers',
-              u"Evènement à Saint-Pierre d'Aurillac",
-              u'Evènement à Paris',
-    ]
-    events_records = [Event(name=event,
+    events_records = [Event(name=u'Evènement à {}'.format(address['city']),
                             start_date=now,
-                            end_date=now) for event in events]
+                            end_date=now) for address in addresses]
 
-    for project_record, address_record, event_record in \
-        izip(projects_records, addresses_records, events_records):
+    projects_records = [Project(name=u'Association de {}'.format(address['city']))
+                        for address in addresses]
+
+    for index, (project_record, address_record, event_record) in \
+        enumerate(izip(projects_records, addresses_records, events_records)):
         project_record.save()
         address_record.save()
         event_record.project = project_record
         event_record.save()
         address_record.events.add(event_record)
         address_record.save()
+        print 'Creating item #{} in the database'.format(index)
 
     return HttpResponse()
 
