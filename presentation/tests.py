@@ -45,13 +45,12 @@ class PagesTests(TestCase):
 
         addresses = Address.objects.all()
         self.assertEqual(len(addresses), 3)
-        for address in addresses:
-            self.assertEqual(len(address.events.all()), 1)
 
         events = Event.objects.all()
         self.assertEqual(len(events), 3)
         for event in events:
             self.assertEqual(isinstance(event.project, Project), True)
+            self.assertEqual(len(event.addresses.all()), 1)
 
     def empty_db(self):
         response = self.client.get(reverse('empty_db'))

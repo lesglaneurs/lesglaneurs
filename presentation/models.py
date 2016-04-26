@@ -38,16 +38,6 @@ class Story(models.Model):
     def __unicode__(self):
         return unicode(self.description)
 
-class Event(models.Model):
-    name = models.CharField(max_length=500)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
-    description = models.TextField(null=True, max_length=1000)
-    project = models.ForeignKey(Project, null=True)
-
-    def __unicode__(self):
-        return self.name
-
 class Address(models.Model):
     address = models.CharField(max_length=500, null=True, blank=True)
     code = models.CharField(max_length=5)
@@ -55,7 +45,17 @@ class Address(models.Model):
     country = models.CharField(max_length=100, default="France")
     latitude = models.DecimalField(decimal_places=15, max_digits=18, blank=True)
     longitude = models.DecimalField(decimal_places=15, max_digits=18, blank=True)
-    events = models.ManyToManyField(Event)
 
     def __unicode__(self):
         return self.address + ' ' + self.code + ' ' + self.city
+
+class Event(models.Model):
+    name = models.CharField(max_length=500)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    description = models.TextField(null=True, max_length=1000)
+    project = models.ForeignKey(Project, null=True)
+    addresses = models.ManyToManyField(Address)
+
+    def __unicode__(self):
+        return self.name

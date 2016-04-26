@@ -94,8 +94,8 @@ def populate_db(addresses):
         address_record.save()
         event_record.project = project_record
         event_record.save()
-        address_record.events.add(event_record)
-        address_record.save()
+        event_record.addresses.add(address_record)
+        event_record.save()
         print 'Creating item #{} in the database'.format(index)
 
     return HttpResponse()
@@ -104,7 +104,7 @@ def map_events(request):
     events = [{'name': event.name,
                'start_date': event.start_date,
                'end_date': event.end_date,
-               'addresses': jsonify(event.address_set.all()),
+               'addresses': jsonify(event.addresses.all()),
                'project': jsonify(event.project)}
               for event in Event.objects.all()]
     return JsonResponse({'events': events})
