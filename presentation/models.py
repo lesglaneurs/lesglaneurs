@@ -43,8 +43,10 @@ class Address(models.Model):
     code = models.CharField(max_length=5)
     city = models.CharField(max_length=100, null=True, blank=True)
     country = models.CharField(max_length=100, default="France")
-    latitude = models.DecimalField(decimal_places=15, max_digits=18, blank=True)
-    longitude = models.DecimalField(decimal_places=15, max_digits=18, blank=True)
+    latitude = models.DecimalField(decimal_places=15, max_digits=18,
+                                   blank=True, null=True)
+    longitude = models.DecimalField(decimal_places=15, max_digits=18,
+                                    blank=True, null=True)
 
     def __unicode__(self):
         return self.address + ' ' + self.code + ' ' + self.city
