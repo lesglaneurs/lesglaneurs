@@ -34,7 +34,7 @@ def empty_db(request):
     Event.objects.all().delete()
     return HttpResponse()
 
-def populate_db_with_small_data(request):
+def load_small_data(request):
     addresses = [{'address': u'34, rue Jules Pedron',
                   'city': u'Guiseniers',
                   'code': u'27700',
@@ -50,7 +50,7 @@ def populate_db_with_small_data(request):
     ]
     return populate_db(addresses)
 
-def populate_db_with_big_data(request):
+def load_big_data(request):
     addresses = []
     path = os.path.join(settings.STATIC_ROOT, 'villes_france.csv')
     with open(path) as csvfile:
