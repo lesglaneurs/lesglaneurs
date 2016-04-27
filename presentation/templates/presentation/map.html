@@ -30,8 +30,9 @@
     <div>Département</div>
     <div>
       <select type="text" id="department">
-        <option value="department1">department1</option>
-        <option value="department2">department2</option>
+        {% for department in departments  %}
+        <option value="department{{ department }}">{{ department }}</option>
+        {% endfor %}
       </select>
     </div>
 

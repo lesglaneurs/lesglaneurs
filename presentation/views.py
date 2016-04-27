@@ -22,11 +22,20 @@ def jsonify(objects):
         [result] = json.loads(serializers.serialize('json', [objects]))
         return result
 
+def get_departments():
+    select = {'department': "SUBSTR(code, 1, 2)"}
+    departments = Address.objects.extra(select=select)
+    departments = departments.order_by('department')
+    departments = departments.values('department').distinct()
+    return sorted([department['department'] for department in departments])
+
 def home(request):
     return render(request, 'presentation/home.html')
 
 def map(request):
-    return render(request, 'presentation/map.html', {'months': range(1, 13)})
+    return render(request, 'presentation/map.html',
+                  {'departments': get_departments(),
+                   'months': range(1, 13)})
 
 def empty_db(request):
     Project.objects.all().delete()

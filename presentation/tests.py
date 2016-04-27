@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 from .models import Project, Address, Event
+from .views import get_departments
 
 class PagesTests(TestCase):
 
@@ -13,18 +14,12 @@ class PagesTests(TestCase):
         self.assertEqual('mapid' in response.content, True)
 
     def test_map_addresses(self):
-        self.empty_db()
-        response = self.client.get(reverse('map_events'))
-        self.assertEqual(200, response.status_code)
         self.load_small_data()
         response = self.client.get(reverse('map_addresses'))
         self.assertEqual(200, response.status_code)
         self.assertEqual(len(json.loads(response.content)['addresses']), 3)
 
     def test_map_events(self):
-        self.empty_db()
-        response = self.client.get(reverse('map_events'))
-        self.assertEqual(200, response.status_code)
         self.load_small_data()
         response = self.client.get(reverse('map_events'))
         self.assertEqual(200, response.status_code)
@@ -52,9 +47,13 @@ class PagesTests(TestCase):
             self.assertEqual(isinstance(event.project, Project), True)
             self.assertEqual(len(event.addresses.all()), 1)
 
-    def empty_db(self):
+    def test_empty_db(self):
         response = self.client.get(reverse('empty_db'))
         self.assertEqual(200, response.status_code)
         self.assertEqual(len(Project.objects.all()), 0)
         self.assertEqual(len(Address.objects.all()), 0)
         self.assertEqual(len(Event.objects.all()), 0)
+
+    def test_get_departments(self):
+        self.client.get(reverse('load_small_data'))
+        self.assertEqual(get_departments(),  ['27', '33', '75'])
