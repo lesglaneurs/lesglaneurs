@@ -38,8 +38,9 @@
     <div>Mois</div>
     <div>
       <select type="text" id="month">
-        <option value="month1">month1</option>
-        <option value="month2">month2</option>
+        {% for month in months  %}
+        <option value="month{{ month }}">{{ month }}</option>
+        {% endfor %}
       </select>
     </div>
 

@@ -26,7 +26,7 @@ def home(request):
     return render(request, 'presentation/home.html')
 
 def map(request):
-    return render(request, 'presentation/map.html')
+    return render(request, 'presentation/map.html', {'months': range(1, 13)})
 
 def empty_db(request):
     Project.objects.all().delete()
