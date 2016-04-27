@@ -14,16 +14,14 @@
 
 <body>
   <div id="mapid"></div>
-  <!-- The script below must be included after the declaration of the map container -->
-  <script src="{% static 'presentation/js/map.js' %}"></script>
 
   <div id="lesglaneurs" class="leaflet-container leaflet-control-layers leaflet-control-layers-expanded">
 
-    <div>Association</div>
+    <div>Projet</div>
     <div>
-      <select type="text" id="association">
-        {% for association in associations  %}
-        <option value="association{{ association }}">{{ association }}</option>
+      <select type="text" id="project">
+        {% for project in projects  %}
+        <option value="{{ project }}">{{ project }}</option>
         {% endfor %}
       </select>
     </div>
@@ -32,7 +30,7 @@
     <div>
       <select type="text" id="department">
         {% for department in departments  %}
-        <option value="department{{ department }}">{{ department }}</option>
+        <option value="{{ department }}">{{ department }}</option>
         {% endfor %}
       </select>
     </div>
@@ -41,12 +39,16 @@
     <div>
       <select type="text" id="month">
         {% for month in months  %}
-        <option value="month{{ month }}">{{ month }}</option>
+        <option value="{{ month }}">{{ month }}</option>
         {% endfor %}
       </select>
     </div>
 
   </div>
+
+  <!-- The script below must be included after the declaration of the map
+  container and of the controls-->
+  <script src="{% static 'presentation/js/map.js' %}"></script>
 
 </body>
 

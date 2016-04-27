@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 from .models import Project, Address, Event
-from .views import get_departments, get_associations
+from .views import get_departments, get_projects, get_months
 
 class PagesTests(TestCase):
 
@@ -56,11 +56,16 @@ class PagesTests(TestCase):
 
     def test_get_departments(self):
         self.client.get(reverse('load_small_data'))
-        self.assertEqual(get_departments(),  ['27', '33', '75'])
+        self.assertEqual(get_departments(),  ['Tous', '27', '33', '75'])
 
-    def test_get_associations(self):
+    def test_get_projects(self):
         self.client.get(reverse('load_small_data'))
-        expected = ['Association de Guiseniers',
+        expected = ['Tous',
+                    'Association de Guiseniers',
                     'Association de Paris',
                     "Association de Saint-Pierre d'Aurillac"]
-        self.assertEqual(get_associations(),  expected)
+        self.assertEqual(get_projects(),  expected)
+
+    def test_get_months(self):
+        expected =  ['Tous', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        self.assertEqual(get_months(), expected)

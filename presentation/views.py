@@ -8,6 +8,7 @@ import os
 
 from django.conf import settings
 from django.core import serializers
+from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
@@ -27,20 +28,23 @@ def get_departments():
     departments = Address.objects.extra(select=select)
     departments = departments.order_by('department')
     departments = departments.values('department').distinct()
-    return sorted([department['department'] for department in departments])
+    return ['Tous'] + sorted([department['department'] for department in departments])
 
-def get_associations():
-    associations = Project.objects.order_by('name').values('name').distinct()
-    return sorted([association['name'] for association in associations])
+def get_projects():
+    projects = Project.objects.order_by('name').values('name').distinct()
+    return ['Tous'] + sorted([project['name'] for project in projects])
+
+def get_months():
+    return ['Tous'] + range(1, 13)
 
 def home(request):
     return render(request, 'presentation/home.html')
 
 def map(request):
     return render(request, 'presentation/map.html',
-                  {'associations': get_associations(),
+                  {'projects': get_projects(),
                    'departments': get_departments(),
-                   'months': range(1, 13)})
+                   'months': get_months()})
 
 def empty_db(request):
     Project.objects.all().delete()
@@ -115,12 +119,22 @@ def populate_db(addresses):
     return HttpResponse()
 
 def map_events(request):
+    month = request.GET.get('month')
+    project = request.GET.get('project')
+    department = request.GET.get('department')
+    events = Event.objects.all()
+    if project:
+        events = events.filter(project__name__exact=project)
+    if department:
+        events = events.filter(addresses__code__startswith=department)
+    if month:
+        events = events.filter(Q(start_date__month=month) | Q(end_date__month=month))
     events = [{'name': event.name,
                'start_date': event.start_date,
                'end_date': event.end_date,
                'addresses': jsonify(event.addresses.all()),
                'project': jsonify(event.project)}
-              for event in Event.objects.all()]
+              for event in events]
     return JsonResponse({'events': events})
 
 def map_addresses(request):

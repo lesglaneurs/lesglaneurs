@@ -5,6 +5,8 @@ var zoom = 6;
 
 var map = L.map('mapid').setView(center, zoom);
 
+var markers = []
+
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18,
@@ -50,23 +52,44 @@ function display_event(index, event) {
         marker.on('mouseout', function (e) {
             this.closePopup();
         });
+        markers.push(marker);
     }
 }
 
-//var display = 'addresses'
-var display = 'events'
+function display() {
+    var url = 'map_events';
+    var args = []
+    var month = $('#month').val()
+    if (month !== 'Tous') {
+        args.push('month=' + month)
+    }
+    var project = $('#project').val()
+    if (project !== 'Tous') {
+        args.push('project=' + project)
+    }
+    var department = $('#department').val()
+    if (department !== 'Tous') {
+        args.push('department=' + department)
+    }
+    if (args.length !== 0) {
+        url = url + '?' + args.join('&')
+    }
 
-if (display === 'addresses') {
-    $.getJSON('map_addresses', function(data) {
-        $.each(data['addresses'], display_address)
-            }).fail(function() {
-                console.log('fail');
-            })
-}
-else {
-    $.getJSON('map_events', function(data) {
+    for (var index in markers) {
+        map.removeLayer(markers[index]);
+    }
+    markers = [];
+    $.getJSON(url, function(data) {
         $.each(data['events'], display_event)
             }).fail(function() {
                 console.log('fail');
             })
 }
+
+$('#project').on('change', display)
+
+$('#department').on('change', display)
+
+$('#month').on('change', display)
+
+display()
