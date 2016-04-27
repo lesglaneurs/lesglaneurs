@@ -22,8 +22,9 @@
     <div>Association</div>
     <div>
       <select type="text" id="association">
-        <option value="association1">association1</option>
-        <option value="association2">association2</option>
+        {% for association in associations  %}
+        <option value="association{{ association }}">{{ association }}</option>
+        {% endfor %}
       </select>
     </div>
 

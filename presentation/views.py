@@ -29,12 +29,17 @@ def get_departments():
     departments = departments.values('department').distinct()
     return sorted([department['department'] for department in departments])
 
+def get_associations():
+    associations = Project.objects.order_by('name').values('name').distinct()
+    return sorted([association['name'] for association in associations])
+
 def home(request):
     return render(request, 'presentation/home.html')
 
 def map(request):
     return render(request, 'presentation/map.html',
-                  {'departments': get_departments(),
+                  {'associations': get_associations(),
+                   'departments': get_departments(),
                    'months': range(1, 13)})
 
 def empty_db(request):
