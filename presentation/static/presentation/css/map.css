@@ -1,5 +1,13 @@
-#mapid { position: fixed;
-         width: 100%;
-         height: 100%;
-         left: 0px;
-         top: 0px; }
+#mapid {position: fixed;
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: 0px;
+       }
+
+#lesglaneurs {position: fixed;
+              left: 0;
+              top: 20%;
+              z-index: 20;
+              margin-left: 10px;
+             }
