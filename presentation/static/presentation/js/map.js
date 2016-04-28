@@ -36,7 +36,9 @@ function display_event(index, event) {
     var addresses = event.addresses
     var content = '' +
         '<b>Nom</b>: ' + event.name + '</br>' +
-        '<b>Association</b>: ' + event.project.fields.name + '</br>'
+        '<b>Association</b>: ' + event.project.fields.name + '</br>' +
+        '<b>Date de début</b>: ' + event.start_date.slice(0, 10) + '</br>' +
+        '<b>Date de fin</b>: ' + event.end_date.slice(0, 10) + '</br>'
     for (var index in addresses) {
         var address = addresses[index]
         var marker = L.marker([address.fields.latitude,
