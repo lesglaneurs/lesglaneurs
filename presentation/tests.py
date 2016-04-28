@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from django.core.urlresolvers import reverse
@@ -31,6 +32,51 @@ class PagesTests(TestCase):
             addresses = event['addresses']
             for address in addresses:
                 self.assertEqual(address['fields']['country'], 'France')
+
+    def test_map_events_filtered_by_month(self):
+        self.load_small_data()
+        month = datetime.datetime.now().month
+        response = self.client.get(
+            '{}?month={}'.format(reverse('map_events'), month))
+        self.assertEqual(200, response.status_code)
+        events = json.loads(response.content)['events']
+        self.assertEqual(len(events), 3)
+        month = month + 1 if month < 12 else 1
+        response = self.client.get(
+            '{}?month={}'.format(reverse('map_events'), month))
+        self.assertEqual(200, response.status_code)
+        events = json.loads(response.content)['events']
+        self.assertEqual(len(events), 0)
+
+    def test_map_events_filtered_by_project(self):
+        self.load_small_data()
+        project = 'Association de Guiseniers'
+        response = self.client.get(
+            '{}?project={}'.format(reverse('map_events'), project))
+        self.assertEqual(200, response.status_code)
+        events = json.loads(response.content)['events']
+        self.assertEqual(len(events), 1)
+        project = 'foo'
+        response = self.client.get(
+            '{}?project={}'.format(reverse('map_events'), project))
+        self.assertEqual(200, response.status_code)
+        events = json.loads(response.content)['events']
+        self.assertEqual(len(events), 0)
+
+    def test_map_events_filtered_by_department(self):
+        self.load_small_data()
+        department = '27'
+        response = self.client.get(
+            '{}?department={}'.format(reverse('map_events'), department))
+        self.assertEqual(200, response.status_code)
+        events = json.loads(response.content)['events']
+        self.assertEqual(len(events), 1)
+        department = 'foo'
+        response = self.client.get(
+            '{}?department={}'.format(reverse('map_events'), department))
+        self.assertEqual(200, response.status_code)
+        events = json.loads(response.content)['events']
+        self.assertEqual(len(events), 0)
 
     def load_small_data(self):
         response = self.client.get(reverse('load_small_data'))
