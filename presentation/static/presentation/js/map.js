@@ -34,7 +34,7 @@ function display_address(index, address) {
 
 function display_event(index, event) {
     var addresses = event.addresses
-    var content = '' +
+    var prefix = '' +
         '<b>Nom</b>: ' + event.name + '</br>' +
         '<b>Association</b>: ' + event.project.fields.name + '</br>' +
         '<b>Contact</b>: ' + event.contact + '</br>' +
@@ -44,7 +44,7 @@ function display_event(index, event) {
         var address = addresses[index]
         var marker = L.marker([address.fields.latitude,
                                address.fields.longitude]).addTo(map);
-        var content = content +
+        var content = prefix +
             '<b>Adresse</b> : ' + address.fields.address + '</br>' +
             '<b>Ville</b> : ' + address.fields.city + '</br>' +
             '<b>Code postal</b> : ' + address.fields.code
