@@ -33,6 +33,29 @@ class Project(models.Model):
     def __unicode__(self):
         return unicode(self.name)
 
+class Person(models.Model):
+    name = models.CharField(max_length=128, help_text="Le prénom de la personne")
+    surname = models.CharField(max_length=128, help_text="Le nom de la personne")
+    projects = models.ManyToManyField(
+                Project,
+                through='Membership',
+                through_fields=('person', 'project', 'membership'),
+        )
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+class Role(models.Model):
+    name = models.CharField(max_length=128, default="membre",
+                                 help_text="Le role d'une personne pour un projet en particulier")
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+class Membership(models.Model):
+    person = models.ForeignKey(Person)
+    project = models.ForeignKey(Project)
+    membership = models.ForeignKey(Role)
 
 class Story(models.Model):
     description = models.CharField(null=True,max_length=200)
