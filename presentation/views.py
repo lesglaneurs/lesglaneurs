@@ -14,7 +14,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.utils.datastructures import OrderedDict
 
-from .models import Address, Project, Story, Event
+from .models import Address, Project, Story, Event, Person
 
 def jsonify(objects):
     if hasattr(objects, '__iter__'):
@@ -22,6 +22,10 @@ def jsonify(objects):
     else:
         [result] = json.loads(serializers.serialize('json', [objects]))
         return result
+
+def get_persons():
+    persons = Person.objects.order_by('name').values('name').distinct()
+    return ['Tous'] + sorted([person['name'] for person in persons])
 
 def get_departments():
     select = {'department': "SUBSTR(code, 1, 2)"}
@@ -106,10 +110,15 @@ def populate_db(addresses):
     projects_records = [Project(name=u'Association de {}'.format(address['city']))
                         for address in addresses]
 
-    for index, (project_record, address_record, event_record) in \
-        enumerate(izip(projects_records, addresses_records, events_records)):
+    persons_records = [Person(name = u"Directeur de l'{}".format(project.name),
+                              surname = "Famille")
+                        for project in projects_records]
+
+    for index, (project_record, address_record, event_record, persons_records) in \
+        enumerate(izip(projects_records, addresses_records, events_records, persons_records)):
         project_record.save()
         address_record.save()
+        persons_records.save()
         event_record.project = project_record
         event_record.save()
         event_record.addresses.add(address_record)
