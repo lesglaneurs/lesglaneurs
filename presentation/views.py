@@ -14,7 +14,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.utils.datastructures import OrderedDict
 
-from .models import Address, Project, Story, Event, Person
+from .models import Address, Project, Story, Event, Person, Membership, Role
 
 def jsonify(objects):
     if hasattr(objects, '__iter__'):
@@ -25,7 +25,11 @@ def jsonify(objects):
 
 def get_persons():
     persons = Person.objects.order_by('name').values('name').distinct()
-    return ['Tous'] + sorted([person['name'] for person in persons])
+    return ['Tous'] + [person['name'] for person in persons]
+
+def get_memberships():
+    memberships = Membership.objects.order_by('person').distinct()
+    return ['Tous'] + sorted([membership.__str__() for membership in memberships])
 
 def get_departments():
     select = {'department': "SUBSTR(code, 1, 2)"}
@@ -51,9 +55,9 @@ def map(request):
                    'months': get_months()})
 
 def empty_db(request):
-    Project.objects.all().delete()
-    Address.objects.all().delete()
-    Event.objects.all().delete()
+    [object_name.objects.all().delete()
+     for object_name in
+     [Person, Project, Role, Membership, Address, Event]]
     return HttpResponse()
 
 def load_small_data(request):
@@ -61,14 +65,15 @@ def load_small_data(request):
                   'city': u'Guiseniers',
                   'code': u'27700',
                   'coords': [49.21267599999999, 1.4749530000000277]},
-                 {'address': u'11 lot des noisetiers',
-                  'city': u"Saint-Pierre d'Aurillac",
-                  'code': u'33490',
-                  'coords': [44.572329, -0.19046500000001743]},
                  {'address': u'72, rue de Rennes',
                   'city': u'Paris',
                   'code': u'75006',
                   'coords': [48.856614, 2.3522219000000177]},
+                 {'address': u'11 lot des noisetiers',
+                  'city': u"Saint-Pierre d'Aurillac",
+                  'code': u'33490',
+                  'coords': [44.572329, -0.19046500000001743]},
+
     ]
     return populate_db(addresses)
 
@@ -106,24 +111,28 @@ def populate_db(addresses):
     events_records = [Event(name=u'Evènement à {}'.format(address['city']),
                             start_date=now,
                             end_date=now) for address in addresses]
-
     projects_records = [Project(name=u'Association de {}'.format(address['city']))
                         for address in addresses]
 
-    persons_records = [Person(name = u"Directeur de l'{}".format(project.name),
-                              surname = "Famille")
-                        for project in projects_records]
-
-    for index, (project_record, address_record, event_record, persons_records) in \
-        enumerate(izip(projects_records, addresses_records, events_records, persons_records)):
+    for index, (project_record, address_record, event_record) in \
+        enumerate(izip(projects_records, addresses_records, events_records)):
         project_record.save()
         address_record.save()
-        persons_records.save()
         event_record.project = project_record
         event_record.save()
         event_record.addresses.add(address_record)
         event_record.save()
         print 'Creating item #{} in the database'.format(index)
+
+    persons_records = [Person(name=first_name, surname="Dutronc")
+                        for first_name in [u'Aurelie', 'Bernard', 'Camille']]
+    [person_record.save() for person_record in persons_records]
+
+    role_member, created = Role.objects.get_or_create(name='membre')
+
+    membership_records = [Membership(person=person, project=project, role=role_member)
+                        for (project, person) in zip(projects_records, persons_records)]
+    [membership_record.save() for membership_record in membership_records]
 
     return HttpResponse()
 

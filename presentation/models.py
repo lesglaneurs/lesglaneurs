@@ -27,7 +27,7 @@ class Project(models.Model):
     logo = models.ImageField(upload_to=user_directory_path,
                              blank=True, null=True, help_text="photo du logo du projet")
     project_structure = models.ImageField(upload_to=user_directory_path,
-                                          blank=True, null=True, help_text="image de la strcuture globale du projet")
+                                          blank=True, null=True, help_text="image de la structure globale du projet")
     workers = models.TextField(blank=True, null=True, help_text="participants au projet - bénévols, salariés")
 
     def __unicode__(self):
@@ -43,19 +43,20 @@ class Person(models.Model):
         )
 
     def __unicode__(self):
-        return unicode(self.name)
+        return unicode(self.name) + ' ' + unicode(self.surname)
 
 class Role(models.Model):
-    name = models.CharField(max_length=128, default="membre",
-                                 help_text="Le role d'une personne pour un projet en particulier")
-
+    name = models.CharField(max_length=128, default="membre", unique=True,
+                             help_text="Le role d'une personne pour un projet en particulier - membre par défaut")
     def __unicode__(self):
         return unicode(self.name)
 
 class Membership(models.Model):
     person = models.ForeignKey(Person)
     project = models.ForeignKey(Project)
-    membership = models.ForeignKey(Role)
+    role = models.ForeignKey(Role)
+    def __unicode__(self):
+        return unicode(self.person) + " - " + unicode(self.role) + " du projet " + unicode(self.project)
 
 class Story(models.Model):
     description = models.CharField(null=True,max_length=200)

@@ -4,8 +4,8 @@ import json
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from .models import Project, Address, Event, Person
-from .views import get_departments, get_projects, get_months, get_persons
+from .models import Project, Address, Event, Person, Membership, Role
+from .views import get_departments, get_projects, get_months, get_persons, get_memberships
 
 class PagesTests(TestCase):
 
@@ -120,8 +120,16 @@ class PagesTests(TestCase):
         self.client.get(reverse('load_small_data'))
 
         expected = ['Tous',
-                    "Directeur de l'Association de Guiseniers",
-                    "Directeur de l'Association de Paris",
-                    "Directeur de l'Association de Saint-Pierre d'Aurillac",
-                    ]
+                    u'Aurelie',
+                    'Bernard',
+                    'Camille']
         self.assertEqual(get_persons(), expected)
+
+    def test_get_memberships(self):
+        self.client.get(reverse('load_small_data'))
+
+        expected = ['Tous',
+                    'Aurelie Dutronc - membre du projet Association de Guiseniers',
+                    'Bernard Dutronc - membre du projet Association de Paris',
+                    "Camille Dutronc - membre du projet Association de Saint-Pierre d'Aurillac"]
+        self.assertEqual(get_memberships(),  expected)
