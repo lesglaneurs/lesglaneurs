@@ -100,7 +100,7 @@ def populate_db(addresses):
 
     empty_db(None)
 
-    addresses_records =  [Address(address=address['address'],
+    addresses_records = [Address(address=address['address'],
                                   code=address['code'],
                                   city=address['city'],
                                   latitude=address['coords'][0],
@@ -141,19 +141,27 @@ def map_events(request):
     project = request.GET.get('project')
     department = request.GET.get('department')
     events = Event.objects.all()
+
     if project:
         events = events.filter(project__name__exact=project)
     if department:
         events = events.filter(addresses__code__startswith=department)
     if month:
         events = events.filter(Q(start_date__month=month) | Q(end_date__month=month))
-    events = [{'name': event.name,
-               'start_date': event.start_date,
-               'end_date': event.end_date,
-               'addresses': jsonify(event.addresses.all()),
-               'project': jsonify(event.project)}
-              for event in events]
-    return JsonResponse({'events': events})
+    events_details = []
+    for event in events:
+        project_contacts = Membership.objects.filter(project__name__exact=event.project, role__name__exact='contact')
+        contact_name = "nom du contact indisponible"
+        if project_contacts:
+            contact_name = project_contacts[0].person.name + ' ' + project_contacts[0].person.surname
+        events_details.append({'name': event.name,
+                               'start_date': event.start_date,
+                               'end_date': event.end_date,
+                               'contact': contact_name,
+                               'addresses': jsonify(event.addresses.all()),
+                               'project': jsonify(event.project)})
+
+    return JsonResponse({'events': events_details})
 
 def map_addresses(request):
     return JsonResponse({'addresses': jsonify(Address.objects.all())})
