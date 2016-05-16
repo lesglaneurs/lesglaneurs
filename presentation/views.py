@@ -128,9 +128,9 @@ def populate_db(addresses):
                         for first_name in [u'Aurelie', 'Bernard', 'Camille']]
     [person_record.save() for person_record in persons_records]
 
-    role_member, created = Role.objects.get_or_create(name='membre')
+    role_contact, created = Role.objects.get_or_create(name='contact')
 
-    membership_records = [Membership(person=person, project=project, role=role_member)
+    membership_records = [Membership(person=person, project=project, role=role_contact)
                         for (project, person) in zip(projects_records, persons_records)]
     [membership_record.save() for membership_record in membership_records]
 
