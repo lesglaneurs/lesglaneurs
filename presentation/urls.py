@@ -3,6 +3,11 @@ from django.contrib import admin
 from . import views
 admin.autodiscover()
 
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'persons', views.PersonViewSet)
+
 urlpatterns = patterns('',
                        #  url(r'^$', 'presentation.views.home', name='home'),
                        url(r'^events/$', views.events, name='events'),
@@ -17,4 +22,9 @@ urlpatterns = patterns('',
                            name='load_small_data'),
                        url(r'^load_big_data', views.load_big_data,
                            name='load_big_data'),
+
+                        # Wire up REST framework API using automatic URL routing.
+                        # Additionally, we include login URLs for the browsable API.
+                        url(r'^', include(router.urls)),
+                        url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )

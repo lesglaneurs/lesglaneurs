@@ -39,7 +39,8 @@ PREREQ_APPS = [
 ]
 
 PROJECT_APPS = [
-    'presentation'
+    'presentation',
+    'rest_framework',
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
@@ -97,4 +98,8 @@ TEMPLATE_DIRS = (
     PROJECT_DIR + '/presentation/templates/',
 )
 
-
+# REST FRAMEMWORK
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGE_SIZE': 10
+}

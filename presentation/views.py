@@ -13,8 +13,19 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.utils.datastructures import OrderedDict
+from rest_framework import viewsets
 
 from .models import Address, Project, Story, Event, Person, Membership, Role
+from serializers import PersonSerializer
+
+class PersonViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows persons to be viewed or edited.
+    """
+    queryset = Person.objects.all().order_by('name')
+    serializer_class = PersonSerializer
+
+
 
 def jsonify(objects):
     if hasattr(objects, '__iter__'):
