@@ -1,27 +1,27 @@
-upstream lesglaneurs_eventmap {
+upstream lesglaneurs_rest {
   # fail_timeout=0 means we always retry an upstream even if it failed
   # to return a good HTTP response (in case the Unicorn master nukes a
   # single worker for timing out).
 
-  server unix:/webapps/django/run/gunicorn_eventmap.sock fail_timeout=0;
+  server unix:/webapps/django/run/gunicorn_rest.sock fail_timeout=0;
 }
 
 server {
 
-    listen   7777;
+    listen   6666;
     server_name 127.0.0.1;
 
     client_max_body_size 4G;
 
-    access_log /webapps/django/lesglaneurs_eventmap/run/logs/nginx-access.log;
-    error_log /webapps/django/lesglaneurs_eventmap/run/logs/nginx-error.log info;
+    access_log /webapps/django/lesglaneurs_rest/run/logs/nginx-access.log;
+    error_log /webapps/django/lesglaneurs_rest/run/logs/nginx-error.log info;
  
     location /static/ {
-        alias    /webapps/django/lesglaneurs_eventmap/static/;
+        alias    /webapps/django/lesglaneurs_rest/static/;
     }
     
     location /media/ {
-        alias    /webapps/django/lesglaneurs_eventmap/media/;
+        alias    /webapps/django/lesglaneurs_rest/media/;
     }
 
     location /local/ {
@@ -51,7 +51,7 @@ server {
         # Try to serve static files from nginx, no point in making an
         # *application* server like Unicorn/Rainbows! serve static files.
         if (!-f $request_filename) {
-            proxy_pass http://lesglaneurs_eventmap;
+            proxy_pass http://lesglaneurs_rest;
             break;
         }
     }
@@ -59,6 +59,6 @@ server {
     # Error pages
     error_page 500 502 503 504 /500.html;
     location = /500.html {
-        root   /webapps/django/lesglaneurs_eventmap/static/;
+        root   /webapps/django/lesglaneurs_rest/static/;
     }
 }

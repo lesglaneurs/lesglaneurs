@@ -3,10 +3,10 @@
 ## sudo gunicorn lesglaneurs.wsgi:application --bind 127.0.0.1:5555
 
 
-NAME="lesglaneurs_eventmap"     
+NAME="lesglaneurs_rest"     
 PROJECT_NAME=lesglaneurs                       # Name of the application
-DJANGO_DIR=/webapps/django/lesglaneurs_eventmap          # Django project directory
-SOCKFILE=/webapps/django/run/gunicorn_eventmap.sock        # to handled shared file system with VM
+DJANGO_DIR=/webapps/django/lesglaneurs_rest          # Django project directory
+SOCKFILE=/webapps/django/run/gunicorn_rest.sock        # to handled shared file system with VM
 USER=django                                       # the user to run as
 GROUP=webapps                                     # the group to run as
 NUM_WORKERS=3                                     # how many worker processes should Gunicorn spawn
