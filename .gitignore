@@ -64,3 +64,5 @@ target/
 
 # static files
 static/*
+
+**migrations
