@@ -116,4 +116,26 @@ class Garden(models.Model):
     address = models.ForeignKey(Address, verbose_name='Adresse', null=True)
 
     def __unicode__(self):
-        return u'{} - {} ({} mètres carrés)'.format(self.address, self.person, self.surface)
+        return u'{} - {} ({} mètres carrés)'.format(self.address,
+                                                    self.person,
+                                                    self.surface)
+
+class Plant(models.Model):
+
+    class Meta:
+        verbose_name = 'Plante'
+
+    name = models.CharField('Nom',
+                            max_length=100)
+    harvest_start_date = models.DateField('Date de début de récolte',
+                                          blank=True,
+                                          null=True)
+    harvest_end_date = models.DateField('Date de fin de récolte',
+                                        blank=True,
+                                        null=True)
+
+    def __unicode__(self):
+        return u'{} - Récolte de {} à {}'.format(self.name,
+                                                 self.harvest_start_date,
+                                                 self.harvest_end_date
+                                                 )
