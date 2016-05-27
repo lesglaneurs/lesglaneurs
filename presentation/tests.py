@@ -129,7 +129,7 @@ class PagesTests(TestCase):
         self.client.get(reverse('load_small_data'))
 
         expected = ['Tous',
-                    'Aurelie Dutronc - membre du projet Association de Guiseniers',
-                    'Bernard Dutronc - membre du projet Association de Paris',
-                    "Camille Dutronc - membre du projet Association de Saint-Pierre d'Aurillac"]
+                    'Aurelie Dutronc - contact du projet Association de Guiseniers',
+                    'Bernard Dutronc - contact du projet Association de Paris',
+                    "Camille Dutronc - contact du projet Association de Saint-Pierre d'Aurillac"]
         self.assertEqual(get_memberships(),  expected)
