@@ -1,4 +1,6 @@
 from django.contrib import admin
+from nested_inline.admin import NestedTabularInline, NestedModelAdmin
+
 from .models import (Address,
                      Event,
                      Garden,
@@ -14,18 +16,23 @@ from .models import (Address,
 admin.site.register(Address)
 admin.site.register(Event)
 admin.site.register(Membership)
-admin.site.register(Plant)
 admin.site.register(Project)
 admin.site.register(Role)
 admin.site.register(Story)
 
 
-class GardenAdmin(admin.TabularInline):
+class PlantAdmin(NestedTabularInline):
+
+    extra = 1
+    model = Plant
+
+class GardenAdmin(NestedTabularInline):
 
     extra = 1
     model = Garden
+    inlines = [PlantAdmin]
 
-class PersonAdmin(admin.ModelAdmin):
+class PersonAdmin(NestedModelAdmin):
 
     model = Person
     inlines = [GardenAdmin]

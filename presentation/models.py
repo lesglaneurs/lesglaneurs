@@ -43,8 +43,8 @@ class Person(models.Model):
     class Meta:
         verbose_name = 'Personne'
 
-    name = models.CharField('Nom', max_length=128, help_text="Le prénom de la personne")
-    surname = models.CharField('Prénom', max_length=128, help_text="Le nom de la personne")
+    name = models.CharField('Prénom', max_length=128)
+    surname = models.CharField('Nom', max_length=128)
     projects = models.ManyToManyField(
                 Project,
                 through='Membership',
@@ -111,22 +111,30 @@ class Garden(models.Model):
     class Meta:
         verbose_name = 'Jardin'
 
-    surface = models.PositiveIntegerField(blank=True, null=True)
-    person = models.ForeignKey(Person, null=True)
-    address = models.ForeignKey(Address, verbose_name='Adresse', null=True)
+    surface = models.PositiveIntegerField('Surface (m2)',
+                                          blank=True,
+                                          null=True)
+    person = models.ForeignKey(Person,
+                               null=True)
+    address = models.ForeignKey(Address,
+                                verbose_name='Adresse',
+                                null=True)
 
     def __unicode__(self):
-        return u'{} - {} ({} mètres carrés)'.format(self.address,
-                                                    self.person,
-                                                    self.surface)
+        return ''
 
 class Plant(models.Model):
 
     class Meta:
         verbose_name = 'Plante'
 
+    CHOICES = [(choice, choice)
+               for choice in ['Cerisier', 'Pommier', 'Poirier']]
+
     name = models.CharField('Nom',
-                            max_length=100)
+                            max_length=100,
+                            choices=CHOICES)
+    garden = models.ForeignKey(Garden, null=True)
     harvest_start_date = models.DateField('Date de début de récolte',
                                           blank=True,
                                           null=True)
@@ -135,7 +143,4 @@ class Plant(models.Model):
                                         null=True)
 
     def __unicode__(self):
-        return u'{} - Récolte de {} à {}'.format(self.name,
-                                                 self.harvest_start_date,
-                                                 self.harvest_end_date
-                                                 )
+        return ''
