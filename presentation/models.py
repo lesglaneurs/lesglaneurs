@@ -80,7 +80,7 @@ class Story(models.Model):
 class Address(models.Model):
 
     class Meta:
-        verbose_name = 'Address'
+        verbose_name = 'Addresse'
 
     address = models.CharField('Adresse', max_length=500, null=True, blank=True)
     code = models.CharField(max_length=5, help_text="code postal")
