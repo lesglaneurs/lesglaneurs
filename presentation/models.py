@@ -69,10 +69,14 @@ class Story(models.Model):
         return unicode(self.description)
 
 class Address(models.Model):
-    address = models.CharField(max_length=500, null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Addresses'
+
+    address = models.CharField('Adresse', max_length=500, null=True, blank=True)
     code = models.CharField(max_length=5, help_text="code postal")
-    city = models.CharField(max_length=100, null=True, blank=True, help_text="ville")
-    country = models.CharField(max_length=100, default="France", help_text="pays")
+    city = models.CharField('Ville', max_length=100, null=True, blank=True, help_text="ville")
+    country = models.CharField('Pays', max_length=100, default="France", help_text="pays")
     latitude = models.DecimalField(decimal_places=15, max_digits=18,
                                    blank=True, null=True)
     longitude = models.DecimalField(decimal_places=15, max_digits=18,

@@ -72,7 +72,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-FR'
 
 TIME_ZONE = 'UTC'
 
@@ -96,5 +96,3 @@ TEMPLATE_DIRS = (
     PROJECT_DIR + '/templates/',
     PROJECT_DIR + '/presentation/templates/',
 )
-
-
