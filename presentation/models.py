@@ -7,6 +7,11 @@ def user_directory_path(instance, filename):
     return '{0}/{1}'.format(instance.name, filename)
 
 class Project(models.Model):
+
+    class Meta:
+        verbose_name = 'Projet'
+
+
     name = models.CharField(max_length=100, help_text="Le nom du projet")
     owner_image = models.ImageField(upload_to=user_directory_path,
                                     blank=True, null=True, help_text="Photo du chef du projet")
@@ -34,8 +39,12 @@ class Project(models.Model):
         return unicode(self.name)
 
 class Person(models.Model):
-    name = models.CharField(max_length=128, help_text="Le prénom de la personne")
-    surname = models.CharField(max_length=128, help_text="Le nom de la personne")
+
+    class Meta:
+        verbose_name = 'Personne'
+
+    name = models.CharField('Nom', max_length=128, help_text="Le prénom de la personne")
+    surname = models.CharField('Prénom', max_length=128, help_text="Le nom de la personne")
     projects = models.ManyToManyField(
                 Project,
                 through='Membership',
@@ -71,7 +80,7 @@ class Story(models.Model):
 class Address(models.Model):
 
     class Meta:
-        verbose_name = 'Addresses'
+        verbose_name = 'Address'
 
     address = models.CharField('Adresse', max_length=500, null=True, blank=True)
     code = models.CharField(max_length=5, help_text="code postal")
@@ -86,6 +95,7 @@ class Address(models.Model):
         return self.address + ' ' + self.code + ' ' + self.city
 
 class Event(models.Model):
+
     name = models.CharField(max_length=500)
     start_date = models.DateTimeField(help_text="date de début")
     end_date = models.DateTimeField(help_text="date de fin")
@@ -95,3 +105,15 @@ class Event(models.Model):
 
     def __unicode__(self):
         return self.name
+
+class Garden(models.Model):
+
+    class Meta:
+        verbose_name = 'Jardin'
+
+    surface = models.PositiveIntegerField(blank=True, null=True)
+    person = models.ForeignKey(Person, null=True)
+    address = models.ForeignKey(Address, verbose_name='Adresse', null=True)
+
+    def __unicode__(self):
+        return u'{} - {} ({} mètres carrés)'.format(self.address, self.person, self.surface)
