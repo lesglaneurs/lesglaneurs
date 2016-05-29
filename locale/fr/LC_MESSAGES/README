@@ -1,0 +1,15 @@
+To modify a translation:
+
+1) If necessary, copy the original translation file, for instance:
+{{{
+cp contrib/admin/locale/fr/LC_MESSAGES/django.po locale/fr/LC_MESSAGES
+}}}
+
+2) Change the translation in the django.po file
+
+3) Generate the binary translation file:
+{{{
+msgfmt django.po --output-file django.mo
+}}}
+
+4) Commit the result to the repository

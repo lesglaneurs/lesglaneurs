@@ -73,6 +73,8 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
+LOCALE_PATHS = [os.path.join(PROJECT_DIR, 'locale'),]
+
 LANGUAGE_CODE = 'fr-FR'
 
 # We use this value only because we use an SQLite DB, which is not able
