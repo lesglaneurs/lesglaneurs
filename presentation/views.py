@@ -170,6 +170,9 @@ def map_events(request):
 def map_addresses(request):
     return JsonResponse({'addresses': jsonify(Address.objects.all())})
 
+def persons(request):
+    return JsonResponse({'persons': jsonify(Person.objects.all())})
+
 def calendar(request):
     events_glan = Event.objects.all()
     return render(request, 'presentation/calendar.html', {'events_glan' : events_glan})

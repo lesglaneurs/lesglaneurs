@@ -20,6 +20,12 @@ class PagesTests(TestCase):
         self.assertEqual(200, response.status_code)
         self.assertEqual(len(json.loads(response.content)['addresses']), 3)
 
+    def test_persons(self):
+        self.load_small_data()
+        response = self.client.get(reverse('persons'))
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(len(json.loads(response.content)['persons']), 3)
+
     def test_map_events(self):
         self.load_small_data()
         response = self.client.get(reverse('map_events'))
