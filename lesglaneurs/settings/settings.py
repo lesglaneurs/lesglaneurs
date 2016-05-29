@@ -75,7 +75,10 @@ DATABASES = {
 
 LANGUAGE_CODE = 'fr-FR'
 
-TIME_ZONE = 'UTC'
+# We use this value only because we use an SQLite DB, which is not able
+# to manage time zone information. If we do not set the correct value, we get
+# ugly messages in the Django admin interface for date fields.
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
