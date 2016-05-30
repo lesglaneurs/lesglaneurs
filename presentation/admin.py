@@ -7,6 +7,7 @@ from .models import (Address,
                      Membership,
                      Person,
                      Plant,
+                     PlantSpecies,
                      Project,
                      Role,
                      Story,
@@ -16,6 +17,7 @@ from .models import (Address,
 admin.site.register(Address)
 admin.site.register(Event)
 admin.site.register(Membership)
+admin.site.register(PlantSpecies)
 admin.site.register(Project)
 admin.site.register(Role)
 admin.site.register(Story)

@@ -172,24 +172,44 @@ class Garden(models.Model):
     def __unicode__(self):
         return ''
 
-class Plant(models.Model):
+class PlantSpecies(models.Model):
 
     class Meta:
         verbose_name = 'Plante'
 
-    CHOICES = [(choice, choice)
-               for choice in ['Cerisier', 'Pommier', 'Poirier']]
-
     name = models.CharField('Nom',
-                            max_length=100,
-                            choices=CHOICES)
-    garden = models.ForeignKey(Garden, null=True)
+                            max_length=100)
     harvest_start_date = models.DateField('Date de début de récolte',
                                           blank=True,
                                           null=True)
     harvest_end_date = models.DateField('Date de fin de récolte',
                                         blank=True,
                                         null=True)
+
+    def __unicode__(self):
+        return u'{} (récolte habituelle du {} au {})'.format(
+            self.name,
+            self.harvest_start_date.strftime("%d/%m"),
+            self.harvest_end_date.strftime("%d/%m"))
+
+class Plant(models.Model):
+
+    class Meta:
+        verbose_name = 'Plante'
+
+    name = models.ForeignKey(PlantSpecies,
+                             verbose_name='Nom',
+                             null=True)
+    garden = models.ForeignKey(Garden,
+                               null=True)
+    harvest_start_date = models.DateField(
+        'Date effective de début de récolte',
+        blank=True,
+        null=True)
+    harvest_end_date = models.DateField(
+        'Date effective de fin de récolte',
+        blank=True,
+        null=True)
 
     def __unicode__(self):
         return ''
