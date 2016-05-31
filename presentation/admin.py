@@ -1,4 +1,6 @@
 from django.contrib import admin
+
+from leaflet.admin import LeafletGeoAdmin
 from nested_inline.admin import NestedTabularInline, NestedModelAdmin
 
 from .models import (Address,
@@ -14,7 +16,6 @@ from .models import (Address,
                  )
 
 # Register your models here.
-admin.site.register(Address)
 admin.site.register(Event)
 admin.site.register(Membership)
 admin.site.register(PlantSpecies)
@@ -22,6 +23,10 @@ admin.site.register(Project)
 admin.site.register(Role)
 admin.site.register(Story)
 
+class AddressAdmin(LeafletGeoAdmin):
+    pass
+
+admin.site.register(Address, AddressAdmin)
 
 class PlantAdmin(NestedTabularInline):
 

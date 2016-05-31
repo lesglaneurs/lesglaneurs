@@ -7,6 +7,7 @@ import json
 import os
 
 from django.conf import settings
+from django.contrib.gis.geos import GEOSGeometry
 from django.core import serializers
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
@@ -101,11 +102,14 @@ def populate_db(addresses):
     empty_db(None)
 
     addresses_records = [Address(address=address['address'],
-                                  code=address['code'],
-                                  city=address['city'],
-                                  latitude=address['coords'][0],
-                                  longitude=address['coords'][1])
-                          for address in addresses]
+                                 code=address['code'],
+                                 city=address['city'],
+                                 point=GEOSGeometry('POINT({lon} {lat})'.format(
+                                     lon=address['coords'][1],
+                                     lat=address['coords'][0])
+                                                )
+                             )
+                         for address in addresses]
 
     now = timezone.now()
     events_records = [Event(name=u'Evènement à {}'.format(address['city']),

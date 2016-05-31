@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.contrib.gis.db import models as gis_models
 
 # Create your models here.
 def user_directory_path(instance, filename):
@@ -127,14 +128,9 @@ class Address(models.Model):
     country = models.CharField('Pays',
                                max_length=100,
                                default='France')
-    latitude = models.DecimalField(decimal_places=15,
-                                   max_digits=18,
-                                   blank=True,
-                                   null=True)
-    longitude = models.DecimalField(decimal_places=15,
-                                    max_digits=18,
-                                    blank=True,
-                                    null=True)
+    point = gis_models.PointField('Coordonnées',
+                                  null=True,
+                                  blank=True)
 
     def __unicode__(self):
         return self.address + ' ' + self.code + ' ' + self.city

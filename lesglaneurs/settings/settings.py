@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Django settings for lesglaneurs project.
 
@@ -37,6 +39,8 @@ PREREQ_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'nested_inline',
+    'django.contrib.gis',
+    'leaflet',
 ]
 
 PROJECT_APPS = [
@@ -65,7 +69,7 @@ WSGI_APPLICATION = 'lesglaneurs.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
@@ -102,3 +106,19 @@ TEMPLATE_DIRS = (
     PROJECT_DIR + '/templates/',
     PROJECT_DIR + '/presentation/templates/',
 )
+
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': (47, 1.7),
+    'DEFAULT_ZOOM': 5,
+    'MIN_ZOOM': 3,
+    'MAX_ZOOM': 18,
+    'TILES': [
+        ('mapbox.streets',
+         'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+         {'attribution': 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+          'id': 'mapbox.streets',
+          'accessToken': 'pk.eyJ1IjoianBub2VsIiwiYSI6ImNpbXo5MGdnejAwbG92OWx5amt5cWV4ejAifQ.vJAEgiLq2bdVEGld5mau5A',
+      }
+     )
+    ]
+}

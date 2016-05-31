@@ -42,8 +42,10 @@ function display_event(index, event) {
         '<b>Date de fin</b>: ' + event.end_date.slice(0, 10) + '</br>'
     for (var index in addresses) {
         var address = addresses[index]
-        var marker = L.marker([address.fields.latitude,
-                               address.fields.longitude]).addTo(map);
+        var point_prefix = 'SRID=4326;POINT ('
+        var point_suffix = ')'
+        var lon_lat = address.fields.point.slice(point_prefix.length, -point_suffix.length).split(' ')
+        var marker = L.marker([lon_lat[1], lon_lat[0]]).addTo(map);
         var content = prefix +
             '<b>Adresse</b> : ' + address.fields.address + '</br>' +
             '<b>Ville</b> : ' + address.fields.city + '</br>' +
