@@ -24,7 +24,8 @@ admin.site.register(Role)
 admin.site.register(Story)
 
 class AddressAdmin(LeafletGeoAdmin):
-    pass
+    class Media:
+        js = ['presentation/js/address.js']
 
 admin.site.register(Address, AddressAdmin)
 
