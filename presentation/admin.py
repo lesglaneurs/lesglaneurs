@@ -23,9 +23,13 @@ admin.site.register(Project)
 admin.site.register(Role)
 admin.site.register(Story)
 
+
 class AddressAdmin(LeafletGeoAdmin):
     class Media:
         js = ['presentation/js/address.js']
+        css = {'all':
+               ["https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css",
+                "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"]}
 
 admin.site.register(Address, AddressAdmin)
 
