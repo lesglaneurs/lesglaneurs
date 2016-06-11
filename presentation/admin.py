@@ -18,7 +18,9 @@ from .models import (Address,
 # Register your models here.
 admin.site.register(Event)
 admin.site.register(Membership)
+admin.site.register(Plant)
 admin.site.register(PlantSpecies)
+admin.site.register(Garden)
 admin.site.register(Project)
 admin.site.register(Role)
 admin.site.register(Story)

@@ -16,24 +16,10 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
     accessToken: 'pk.eyJ1IjoianBub2VsIiwiYSI6ImNpbXo5MGdnejAwbG92OWx5amt5cWV4ejAifQ.vJAEgiLq2bdVEGld5mau5A'
 }).addTo(map);
 
-function display_address(index, address) {
-    var marker = L.marker([address.fields.latitude,
-                           address.fields.longitude]).addTo(map);
-    var content = '' +
-        '<b>Adresse</b> : ' + address.fields.address + '</br>' +
-        '<b>Ville</b> : ' + address.fields.city + '</br>' +
-        '<b>Code postal</b> : ' + address.fields.code
-    marker.bindPopup(content);
-    marker.on('mouseover', function (e) {
-        this.openPopup();
-    });
-    marker.on('mouseout', function (e) {
-        this.closePopup();
-    });
-}
 
 function display_event(index, event) {
     var addresses = event.addresses
+    console.log(addresses);
     var prefix = '' +
         '<b>Nom</b>: ' + event.name + '</br>' +
         '<b>Association</b>: ' + event.project.fields.name + '</br>' +

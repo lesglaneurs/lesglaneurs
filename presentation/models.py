@@ -159,31 +159,29 @@ class Garden(models.Model):
     surface = models.PositiveIntegerField('Surface (m2)',
                                           blank=True,
                                           null=True)
-    person = models.ForeignKey(Person,
-                               null=True)
+    person = models.ForeignKey(Person)
     address = models.ForeignKey(Address,
-                                verbose_name='Adresse',
-                                null=True)
+                                verbose_name='Adresse')
 
     def __unicode__(self):
-        return ''
+        return u'terrain de ' + unicode(self.person.name) + u' au ' + unicode(self.address.address)
 
 class PlantSpecies(models.Model):
 
     class Meta:
-        verbose_name = 'Plante'
+        verbose_name = 'Espece'
 
-    name = models.CharField('Nom',
+    name = models.CharField(u'Nom commun de la plante',
                             max_length=100)
-    harvest_start_date = models.DateField('Date de début de récolte',
+    harvest_start_date = models.DateField(u'Date de début de récolte minimum',
                                           blank=True,
                                           null=True)
-    harvest_end_date = models.DateField('Date de fin de récolte',
+    harvest_end_date = models.DateField(u'Date de fin de récolte maximum',
                                         blank=True,
                                         null=True)
 
     def __unicode__(self):
-        return u'{} (récolte habituelle du {} au {})'.format(
+        return u'{} (récolte du {} au {})'.format(
             self.name,
             self.harvest_start_date.strftime("%d/%m"),
             self.harvest_end_date.strftime("%d/%m"))
@@ -191,21 +189,23 @@ class PlantSpecies(models.Model):
 class Plant(models.Model):
 
     class Meta:
-        verbose_name = 'Plante'
+        verbose_name = 'Plante d un jardin'
 
     name = models.ForeignKey(PlantSpecies,
-                             verbose_name='Nom',
-                             null=True)
+                             verbose_name='Nom')
     garden = models.ForeignKey(Garden,
                                null=True)
     harvest_start_date = models.DateField(
-        'Date effective de début de récolte',
+        u'Date estimée de début de récolte sur ce terrain',
         blank=True,
         null=True)
     harvest_end_date = models.DateField(
-        'Date effective de fin de récolte',
+        u'Date estimée de fin de récolte sur ce terrain',
         blank=True,
         null=True)
 
     def __unicode__(self):
-        return ''
+        return u'{} du {})'.format(
+            self.name,
+            self.garden)
+

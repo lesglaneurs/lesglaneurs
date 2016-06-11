@@ -15,8 +15,9 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.utils.datastructures import OrderedDict
 
-from .models import Address, Project, Story, Event, Person, Membership, Role
+from .models import Address, Project, Story, Event, Person, Membership, Role, Garden, Plant, PlantSpecies
 
+## Global functions
 def jsonify(objects):
     if hasattr(objects, '__iter__'):
         return json.loads(serializers.serialize('json', objects))
@@ -24,6 +25,7 @@ def jsonify(objects):
         [result] = json.loads(serializers.serialize('json', [objects]))
         return result
 
+## Get data for map filters
 def get_persons():
     persons = Person.objects.order_by('name').values('name').distinct()
     return ['Tous'] + [person['name'] for person in persons]
@@ -31,6 +33,16 @@ def get_persons():
 def get_memberships():
     memberships = Membership.objects.order_by('person').distinct()
     return ['Tous'] + sorted([membership.__str__() for membership in memberships])
+
+def get_gardens():
+    [gardens] = Garden.objects.all(),
+    return ['Tous'] + ['jardin de ' + unicode(garden.person.name)
+            for garden in gardens]
+
+def get_plants():
+    [plants] = PlantSpecies.objects.all(),
+    return ['Tous'] + [unicode(plant.name)
+            for plant in plants]
 
 def get_departments():
     select = {'department': "SUBSTR(code, 1, 2)"}
@@ -46,6 +58,7 @@ def get_projects():
 def get_months():
     return ['Tous'] + range(1, 13)
 
+## render
 def home(request):
     return render(request, 'presentation/home.html')
 
@@ -55,6 +68,18 @@ def map(request):
                    'departments': get_departments(),
                    'months': get_months()})
 
+def map_plants(request):
+    return render(request, 'presentation/map_plants.html',
+                  {'plants': get_plants(),
+                   'gardens': get_gardens(),
+                   'persons': get_persons()})
+
+def map_gardens(request):
+    return render(request, 'presentation/map_gardens.html',
+                  {'gardens': get_gardens(),
+                   'persons': get_persons()})
+
+## DB operations
 def empty_db(request):
     [object_name.objects.all().delete()
      for object_name in
@@ -167,6 +192,31 @@ def map_events(request):
 
     return JsonResponse({'events': events_details})
 
+## JSON data
+def gardens(request):
+    gardens_details = []
+    for garden in Garden.objects.all():
+        gardens_details.append({
+                              'person':  jsonify(Person.objects.get(pk= garden.person.id))['fields'],
+                              'address': jsonify(Address.objects.get(pk=garden.address.id))['fields'],
+                              'surface': garden.surface}),
+    return JsonResponse({'gardens': gardens_details})
+
+def garden_details(garden):
+    garden_details = {'person':  jsonify(Person.objects.get(pk= garden.person.id))['fields'],
+                      'address': jsonify(Address.objects.get(pk=garden.address.id))['fields'],
+                      'surface': garden.surface},
+    return garden_details
+
+def plants(request):
+    plants_details = []
+    for plant in Plant.objects.all():
+        plants_details.append({
+            'name': jsonify(PlantSpecies.objects.get(pk = plant.name.id))['fields']['name'],
+            'garden': garden_details(Garden.objects.get(pk = plant.garden.id))
+        }),
+    return JsonResponse({'plants': plants_details})
+
 def map_addresses(request):
     return JsonResponse({'addresses': jsonify(Address.objects.all())})
 
@@ -176,9 +226,6 @@ def persons(request):
 def calendar(request):
     events_glan = Event.objects.all()
     return render(request, 'presentation/calendar.html', {'events_glan' : events_glan})
-
-def test(request):
-    return render(request, 'presentation/test.html')
 
 def projects(request, project_id=None):
     if project_id:
@@ -228,3 +275,4 @@ def events(request):
             'project_site': project.web_site
         })
     return JsonResponse(calendar_events, safe=False)
+
