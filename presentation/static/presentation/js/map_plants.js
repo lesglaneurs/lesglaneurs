@@ -19,12 +19,15 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 function display_plant(index, plant) {
         var garden = plant.garden[0];
         var address = garden.address;
-        var marker = L.marker([address.latitude,
-                               address.longitude]).addTo(map);
+
+        var point_prefix = 'SRID=4326;POINT ('
+        var point_suffix = ')'
+        var lon_lat = address.point.slice(point_prefix.length, -point_suffix.length).split(' ')
+        var marker = L.marker([lon_lat[1], lon_lat[0]]).addTo(map);
 
         var content = '' +
                     '<b>Plante</b>: ' + plant.name + '</br>' +
-                    '<b>Chez</b>: ' + garden.person.name + '</br>' +
+                    '<b>Chez</b>: ' + garden.person.name + ' ' + garden.person.surname + '</br>' +
                     '<b>Adresse</b> : ' + address.address + '</br>' +
                     '<b>Ville</b> : ' + address.city + '</br>' +
                     '<b>Code postal</b> : ' + address.code;
@@ -62,7 +65,7 @@ function display_garden(index, garden) {
 
 
 function display() {
-    console.log("javascript");
+    console.log("map plants");
 
     var url = '../plants/';
     var args = [];
@@ -75,7 +78,6 @@ function display() {
 
     markers = [];
     $.getJSON(url, function(data) {
-        console.log(data)
         $.each(data['plants'], display_plant)
             }).fail(function() {
                 console.log('fail');
