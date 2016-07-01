@@ -17,10 +17,10 @@ from .models import (Address,
 
 # Register your models here.
 admin.site.register(Event)
+admin.site.register(Person)
 admin.site.register(Membership)
 admin.site.register(Plant)
 admin.site.register(PlantSpecies)
-admin.site.register(Garden)
 admin.site.register(Project)
 admin.site.register(Role)
 admin.site.register(Story)
@@ -40,15 +40,14 @@ class PlantAdmin(NestedTabularInline):
     extra = 1
     model = Plant
 
-class GardenAdmin(NestedTabularInline):
+class PersonAdmin(NestedTabularInline):
 
     extra = 1
+    model = Person
+
+class GardenAdmin(NestedModelAdmin):
+
     model = Garden
     inlines = [PlantAdmin]
 
-class PersonAdmin(NestedModelAdmin):
-
-    model = Person
-    inlines = [GardenAdmin]
-
-admin.site.register(Person, PersonAdmin)
+admin.site.register(Garden, GardenAdmin)

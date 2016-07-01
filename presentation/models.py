@@ -7,6 +7,30 @@ def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/project_name/<filename>
     return '{0}/{1}'.format(instance.name, filename)
 
+class Address(models.Model):
+
+    class Meta:
+        verbose_name = 'Adresse'
+
+    address = models.CharField('Adresse',
+                               max_length=500,
+                               null=True,
+                               blank=True)
+    code = models.CharField('Code postal', max_length=5)
+    city = models.CharField('Ville',
+                            max_length=100,
+                            null=True,
+                            blank=True)
+    country = models.CharField('Pays',
+                               max_length=100,
+                               default='France')
+    point = gis_models.PointField('Coordonnées',
+                                  null=True,
+                                  blank=True)
+
+    def __unicode__(self):
+        return self.address + ' ' + self.code + ' ' + self.city
+
 class Project(models.Model):
 
     class Meta:
@@ -67,8 +91,29 @@ class Person(models.Model):
     class Meta:
         verbose_name = 'Personne'
 
-    name = models.CharField('Prénom', max_length=128)
-    surname = models.CharField('Nom', max_length=128)
+    name = models.CharField('Prénom',
+                            max_length=128,
+                            blank=True,
+                            null=True)
+    surname = models.CharField('Nom',
+                                max_length=128,
+                                blank=True,
+                                null=True)
+    telephone = models.CharField('Numéro de téléphone',
+                                 max_length=14,
+                                 blank=True,
+                                 null=True)
+    mobile = models.CharField('Numéro de téléphone mobile',
+                                 max_length=14,
+                                 blank=True,
+                                 null=True)
+    email = models.EmailField('Email de contact',
+                              blank=True,
+                              null=True)
+    address = models.ForeignKey(Address,
+                                blank=True,
+                                null=True,
+                                verbose_name='Adresse')
     projects = models.ManyToManyField(
                 Project,
                 through='Membership',
@@ -111,30 +156,6 @@ class Story(models.Model):
     def __unicode__(self):
         return unicode(self.description)
 
-class Address(models.Model):
-
-    class Meta:
-        verbose_name = 'Adresse'
-
-    address = models.CharField('Adresse',
-                               max_length=500,
-                               null=True,
-                               blank=True)
-    code = models.CharField('Code postal', max_length=5)
-    city = models.CharField('Ville',
-                            max_length=100,
-                            null=True,
-                            blank=True)
-    country = models.CharField('Pays',
-                               max_length=100,
-                               default='France')
-    point = gis_models.PointField('Coordonnées',
-                                  null=True,
-                                  blank=True)
-
-    def __unicode__(self):
-        return self.address + ' ' + self.code + ' ' + self.city
-
 class Event(models.Model):
 
     class Meta:
@@ -154,7 +175,7 @@ class Event(models.Model):
 class Garden(models.Model):
 
     class Meta:
-        verbose_name = 'Jardin'
+        verbose_name = 'Lieu'
 
     surface = models.PositiveIntegerField('Surface (m2)',
                                           blank=True,
