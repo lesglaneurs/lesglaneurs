@@ -19,9 +19,14 @@ lib64/
 parts/
 sdist/
 var/
+bin/
+local/
+media/
+include/
 *.egg-info/
 .installed.cfg
 *.egg
+.idea/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -64,5 +69,8 @@ target/
 
 # static files
 static/*
+
+# installation
+gunicorn.sh
 
 **migrations
