@@ -31,61 +31,56 @@ class Address(models.Model):
 
     def __unicode__(self):
         return self.address + ' ' + self.code + ' ' + self.city
-
+        
 class Project(models.Model):
+    class Meta: verbose_name = 'Projet'
 
-    class Meta:
-        verbose_name = 'Projet'
-
-    name = models.CharField('Nom du projet',
-                            max_length=100)
-    owner_image = models.ImageField('Photo du chef du projet',
-                                    upload_to=user_directory_path,
-                                    blank=True,
-                                    null=True)
-    creation_date = models.PositiveIntegerField('Date de création',
-                                                blank=True,
-                                                null=True)
+    name = models.CharField('Nom du projet', max_length=100)
+    creation_date = models.DateField('Date de création',
+                                     blank=True, null=True)
     contact_name = models.CharField('Nom du contact de référence',
                                     max_length=100,
-                                    blank=True,
-                                    null=True)
+                                    blank=True, null=True)
     email = models.EmailField('Email de contact',
-                              blank=True,
-                              null=True)
+                              blank=True, null=True)
     telephone = models.CharField('Numéro de téléphone',
                                  max_length=14,
-                                 blank=True,
-                                 null=True)
+                                 blank=True, null=True)
     web_site = models.URLField('Site web du projet',
-                               blank=True,
-                               null=True)
-    structure = models.CharField('Structure administrative du projet',
-                                 max_length=100,
-                                 blank=True,
-                                 null=True)
-    location_today = models.ImageField("Présence du projet aujourd'hui",
-                                       upload_to=user_directory_path,
-                                       blank=True,
-                                       null=True,)
-    location_target = models.ImageField("Prévision d'évolution géographique",
-                                        upload_to=user_directory_path,
-                                        blank=True,
-                                        null=True)
+                               blank=True, null=True)
+    STRUCTURE = (
+        ('libre', 'structure libre sans statut officiel'),
+        ('asso', 'association loi 1900'), 
+        ('sarl', 'SARL'),
+    )
+    structure = models.CharField(choices=STRUCTURE, max_length=50, default='asso')
+    
     logo = models.ImageField('Logo du projet',
                              upload_to=user_directory_path,
-                             blank=True,
-                             null=True)
-    project_structure = models.ImageField('Image de la structure globale du projet',
-                                          upload_to=user_directory_path,
-                                          blank=True,
-                                          null=True)
-    workers = models.TextField('Participants (bénévoles, salariés)',
-                               blank=True,
-                               null=True)
-
+                             blank=True, null=True)
     def __unicode__(self):
         return unicode(self.name)
+
+class ProjectProfile(models.Model):
+    class Meta: verbose_name = 'Fiche projet'
+
+    project = models.ForeignKey(Project, verbose_name='Project')
+    owner_image = models.ImageField('Photo du chef du projet',
+                                    upload_to=user_directory_path,
+                                    blank=True, null=True)
+    location_today = models.ImageField("Présence du projet aujourd'hui",
+                                       upload_to=user_directory_path,
+                                       blank=True, null=True,)
+    location_target = models.ImageField("Prévision d'évolution géographique",
+                                        upload_to=user_directory_path,
+                                        blank=True, null=True)
+    project_structure = models.ImageField('Image de la structure globale du projet',
+                                          upload_to=user_directory_path,
+                                          blank=True, null=True)
+    workers = models.TextField('Participants (bénévoles, salariés)',
+                               blank=True, null=True)
+    def __unicode__(self):
+        return unicode(self.project.name)
 
 class Person(models.Model):
 
@@ -125,10 +120,7 @@ class Person(models.Model):
         return unicode(self.name) + ' ' + unicode(self.surname)
 
 class Role(models.Model):
-
-    class Meta:
-        verbose_name = 'Role'
-
+    class Meta: verbose_name = 'Role'
 
     name = models.CharField('Nom',
                             max_length=128,
@@ -158,9 +150,7 @@ class Story(models.Model):
         return unicode(self.description)
 
 class Event(models.Model):
-
-    class Meta:
-        verbose_name = 'Evénement'
+    class Meta: verbose_name = 'Evénement'
 
     name = models.CharField(max_length=500)
     start_date = models.DateTimeField('Date de début', default=datetime.now, blank=True)
