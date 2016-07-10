@@ -60,3 +60,7 @@ a {
     width: 400px;
     background-color:#E6E72E;
 }
+
+img[src=""] {
+    display: none;
+}
