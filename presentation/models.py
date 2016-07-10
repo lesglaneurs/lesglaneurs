@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.gis.db import models as gis_models
+from datetime import datetime
 
 # Create your models here.
 def user_directory_path(instance, filename):
@@ -162,12 +163,14 @@ class Event(models.Model):
         verbose_name = 'Evénement'
 
     name = models.CharField(max_length=500)
-    start_date = models.DateTimeField('Date de début')
-    end_date = models.DateTimeField('Date de fin')
-    description = models.TextField(null=True,
+    start_date = models.DateTimeField('Date de début', default=datetime.now, blank=True)
+    end_date = models.DateTimeField('Date de fin', default=datetime.now, blank=True)
+    description = models.TextField(blank=True,
+                                   null=True,
                                    max_length=1000)
-    project = models.ForeignKey(Project, verbose_name='Projet', null=True)
-    addresses = models.ManyToManyField(Address, verbose_name='Adresse')
+    project = models.ForeignKey(Project, verbose_name='Organisateur')
+    addresses = models.ManyToManyField(Address, verbose_name='Adresse', 
+                                       blank=True)
 
     def __unicode__(self):
         return self.name

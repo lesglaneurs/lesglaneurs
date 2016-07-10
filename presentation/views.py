@@ -258,6 +258,11 @@ def events(request):
     calendar_events = []
     for event in events:
         project = get_object_or_404(Project, name=event.project)
+        if hasattr(project.logo, 'url'): 
+            logo = project.logo.url
+        else:
+            logo = ''
+
         calendar_events.append(
         {
             'title': event.name,
@@ -265,7 +270,7 @@ def events(request):
             'end': event.end_date.date(),
             'description': event.description,
             'project_name': project.name,
-            'project_logo': project.logo.url,
+            'project_logo': logo,
             #'place': event.place,
             'contact_name': project.contact_name,
             'contact_phone':project.telephone,
