@@ -227,6 +227,9 @@ def calendar(request):
     events_glan = Event.objects.all()
     return render(request, 'presentation/calendar.html', {'events_glan' : events_glan})
 
+def wireframe(request):
+    return render(request, 'presentation/wireframe.html')
+
 def projects(request, project_id=None):
     if project_id:
         project = get_object_or_404(Project, id=project_id)

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+{% static "presentation/images/" as images %}
+<html>
+    <head lang="fr">
+    <meta charset="UTF-8">
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
+    <link rel="stylesheet" href="{% static 'presentation/css/style.css' %}" >
+    <link rel="stylesheet" href="{% static 'presentation/css/fullcalendar.min.css' %}" >
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.css">
+
+    <script type="text/javascript" src="{% static 'presentation/js/jquery.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'presentation/js/bootstrap.min.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'presentation/js/fullcalendar.min.js' %}"></script> -->
+    <!-- <script type="text/javascript" src="{% static 'presentation/js/fr.js' %}"></script> -->
+    <!-- <script type="text/javascript" src="{% static 'presentation/js/moment.min.js' %}"></script> -->
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/lang/fr.js"></script>
+    <script type="text/javascript">$(document).ready(function()
+      {
+      $('#calendar').fullCalendar(
+      {
+      //Event's info - JSON
+      events:"events/",
+      
+      //Calendar Config
+      firstDay:1, //start with Monday
+      lang:"fr",  //French
+      header:{
+                            left:   'title',
+      center: '',
+      right:  'today prev,next', //prev and next arrows position in header
+      },
+      height:"auto", //show all weeks with no scrollbar
+      fixedWeekCount:false, //adjust number of weeks 4, 5 or 6 automatically
+      theme:false,   //can be overwridden with JQuery themes to change bottons format
+      
+      //Calendar Function
+      eventClick:function(event, jsEvent, view)
+      {
+      //Title
+                    document.getElementById('event_title').innerHTML = event.title;
+      document.getElementById('project_logo').src = event.project_logo;
+      document.getElementById('project_logo').innerHTML = event.title;
+      //Description & details
+      $('#event_description').html(event.description);
+      $('#project_name').html(event.project_name);
+      //$('#event_place').html(event.place);
+      $('#contact_name').html(event.contact_name);
+      $('#contact_phone').html(event.contact_phone);
+      $('#contact_email').html(event.contact_email);
+      //$('#inscription').html(event.inscription);
+      document.getElementById('project_site').href = event.project_site;
+      
+      $('#project_site').html(event.project_site);
+      $('#fullcalmodal').modal();
+      
+      // debug info :
+      //                    alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+      //                    alert('View: ' + view.name);
+      // change the border color just for fun
+      //                    $(this).css('border-color', 'red');
+      }
+      })
+      })
+    </script>
+</head>
+<body>
+  <div class="container">
+    <!-- Header-->
+    <div class="row">
+      <div class="col-md-3">
+        <img src="{% static 'presentation/images/Logo_201504.jpg' %}" class="img-responsive" alt="Logo">
+	<div style="text-align:center">	
+	  Gérer Profil
+	</div>
+      </div>
+
+
+      <div class="col-md-6" style="margin-top: 50px; margin-left: 25%;">
+	<div class="col-md-6" style="margin-left: -50%">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Ajouter contact</button>
+	</div>
+	<div class="col-md-6">
+	  <button type="button" class="btn btn-default" data-dismiss="modal">Ajouter évenement</button>
+	</div>
+	<div >
+	  Create new popop forms
+	</div>
+      </div>
+
+    </div>
+
+    <!-- Body-->
+    <div class="row">
+      <!-- Contacts -->
+      <div class="col-md-3">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Rechercher contact</button>
+	<div>
+          <img src="{% static 'presentation/images/contact_table.jpg' %}" class="img-responsive" alt="contact table">
+	  <table>
+	    <th>Table Contacts</th>
+	  </table>
+	</div>
+	<div >
+	  Find advanced table Excel like
+	</div>
+	<div >
+          <button type="button" class="btn btn-default" data-dismiss="modal">Envoyer un email</button>
+	</div>
+      </div>
+      
+      <!-- Map -->
+      <div class="col-md-6">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Rechercher Espèce</button>
+          <img src="{% static 'presentation/images/map_img.jpg' %}" class="img-responsive" alt="Map">
+      </div>
+
+      <!-- Events -->
+      <div class="col-md-3" >
+	<button type="button" class="btn btn-default" data-dismiss="modal">Rechercher événement</button>
+	<div id="calendar">
+	  
+	</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
