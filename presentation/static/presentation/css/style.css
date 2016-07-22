@@ -4,6 +4,10 @@ body{
     font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
+.container{
+    width: 100%;
+}
+
 .row {
     display: flex;
     flex-wrap: wrap-reverse;
@@ -59,6 +63,10 @@ a {
 .popover{
     width: 400px;
     background-color:#E6E72E;
+}
+
+.logo {
+    max-width: 30%
 }
 
 img[src=""] {

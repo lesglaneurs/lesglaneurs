@@ -37,12 +37,12 @@ def get_memberships():
 def get_gardens():
     [gardens] = Garden.objects.all(),
     return ['Tous'] + ['jardin de ' + unicode(garden.person.name)
-            for garden in gardens]
+                       for garden in gardens]
 
 def get_plants():
     [plants] = PlantSpecies.objects.all(),
     return ['Tous'] + [unicode(plant.name)
-            for plant in plants]
+                       for plant in plants]
 
 def get_departments():
     select = {'department': "SUBSTR(code, 1, 2)"}
@@ -154,13 +154,13 @@ def populate_db(addresses):
         print 'Creating item #{} in the database'.format(index)
 
     persons_records = [Person(name=first_name, surname="Dutronc")
-                        for first_name in [u'Aurelie', 'Bernard', 'Camille']]
+                       for first_name in [u'Aurelie', 'Bernard', 'Camille']]
     [person_record.save() for person_record in persons_records]
 
     role_contact, created = Role.objects.get_or_create(name='contact')
 
     membership_records = [Membership(person=person, project=project, role=role_contact)
-                        for (project, person) in zip(projects_records, persons_records)]
+                          for (project, person) in zip(projects_records, persons_records)]
     [membership_record.save() for membership_record in membership_records]
 
     return HttpResponse()
@@ -189,7 +189,6 @@ def map_events(request):
                                'contact': contact_name,
                                'addresses': jsonify(event.addresses.all()),
                                'project': jsonify(event.project)})
-
     return JsonResponse({'events': events_details})
 
 ## JSON data
@@ -197,9 +196,9 @@ def gardens(request):
     gardens_details = []
     for garden in Garden.objects.all():
         gardens_details.append({
-                              'person':  jsonify(Person.objects.get(pk= garden.person.id))['fields'],
-                              'address': jsonify(Address.objects.get(pk=garden.address.id))['fields'],
-                              'surface': garden.surface}),
+            'person':  jsonify(Person.objects.get(pk= garden.person.id))['fields'],
+            'address': jsonify(Address.objects.get(pk=garden.address.id))['fields'],
+            'surface': garden.surface}),
     return JsonResponse({'gardens': gardens_details})
 
 def garden_details(garden):
@@ -230,6 +229,10 @@ def calendar(request):
 def wireframe(request):
     return render(request, 'presentation/wireframe.html')
 
+def table(request):
+    print Person.objects.all()
+    return render(request, 'presentation/table.html', {'persons': Person.objects.all()})
+
 def projects(request, project_id=None):
     if project_id:
         project = get_object_or_404(Project, id=project_id)
@@ -250,10 +253,10 @@ def projects(request, project_id=None):
                       {u'project':project,
                        u'identity_items':identity_items,
                        u'events_glan': events
-                       })
+                   })
     else:
-         projects = serializers.serialize("json", Project.objects.all())
-         return JsonResponse(projects, safe=False)
+        projects = serializers.serialize("json", Project.objects.all())
+        return JsonResponse(projects, safe=False)
 
 
 def events(request):
@@ -267,20 +270,20 @@ def events(request):
             logo = ''
 
         calendar_events.append(
-        {
+            {
             'title': event.name,
-            'start': event.start_date.date(),
-            'end': event.end_date.date(),
-            'description': event.description,
-            'project_name': project.name,
-            'project_logo': logo,
-            #'place': event.place,
-            'contact_name': project.contact_name,
-            'contact_phone':project.telephone,
-            'contact_email':project.email,
-            #'inscription': "obligatoire",
-            #'event_details_link': event.website,
-            'project_site': project.web_site
-        })
+                'start': event.start_date.date(),
+                'end': event.end_date.date(),
+                'description': event.description,
+                'project_name': project.name,
+                'project_logo': logo,
+                #'place': event.place,
+                'contact_name': project.contact_name,
+                'contact_phone':project.telephone,
+                'contact_email':project.email,
+                #'inscription': "obligatoire",
+                #'event_details_link': event.website,
+                'project_site': project.web_site
+            })
     return JsonResponse(calendar_events, safe=False)
 
