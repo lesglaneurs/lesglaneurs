@@ -13,7 +13,8 @@ urlpatterns = patterns('',
                        url(r'^map$', views.map, name='map'),
                        url(r'^map/gardens', views.map_gardens, name='map_gardens'),
                        url(r'^map/plants', views.map_plants, name='map_plants'),
-                       url(r'^table', views.table, name='table'),
+                       url(r'^contacts', views.contacts, name='contacts'),
+                       url(r'^contacts/add', views.contacts_add, name='contacts_add'),
                        
                        # JSON
                        url(r'^map_addresses', views.map_addresses, name='map_addresses'),

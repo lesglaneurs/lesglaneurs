@@ -229,9 +229,24 @@ def calendar(request):
 def wireframe(request):
     return render(request, 'presentation/wireframe.html')
 
-def table(request):
+def contacts(request):
     print Person.objects.all()
     return render(request, 'presentation/table.html', {'persons': Person.objects.all()})
+
+def contacts_add(request):
+    print 'addPerson'
+    if request.method == 'POST':
+        form = NameForm(request.POST)
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('/table.html')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = NameForm()
+    return render(request, 'table.html', {'form': form})
 
 def projects(request, project_id=None):
     if project_id:
