@@ -99,7 +99,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = (
-    PROJECT_DIR + '/presentation/static/',
+    PROJECT_DIR + '/static/',
 )
 
 TEMPLATE_DIRS = (
@@ -122,3 +122,5 @@ LEAFLET_CONFIG = {
      )
     ]
 }
+
+SPATIALITE_LIBRARY_PATH = 'mod_spatialite'

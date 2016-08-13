@@ -6,11 +6,12 @@ from itertools import izip
 import json
 import os
 
+from django import forms
 from django.conf import settings
 from django.contrib.gis.geos import GEOSGeometry
 from django.core import serializers
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.utils.datastructures import OrderedDict
@@ -229,24 +230,28 @@ def calendar(request):
 def wireframe(request):
     return render(request, 'presentation/wireframe.html')
 
-def contacts(request):
-    print Person.objects.all()
-    return render(request, 'presentation/table.html', {'persons': Person.objects.all()})
+from .forms import NameForm
 
-def contacts_add(request):
-    print 'addPerson'
+def contact_add(request):
     if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
         form = NameForm(request.POST)
         if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect('/table.html')
-
-    # if a GET (or any other method) we'll create a blank form
+            data = form.cleaned_data
+            person = Person(name = data['name'],
+                            surname = data['surname'],
+                            email = data['email'])
+            person.save()
+            return HttpResponseRedirect('/local/presentation/contacts')
+        else:
+            return HttpResponseRedirect('/local/presentation/contact_add')
     else:
         form = NameForm()
-    return render(request, 'table.html', {'form': form})
+    return render(request, 'presentation/contact.html', {'form': form, 
+                                                         'persons': Person.objects.all()})
+
+def contacts(request):
+    return render(request, 'presentation/contact.html', {'persons': Person.objects.all()})
 
 def projects(request, project_id=None):
     if project_id:
