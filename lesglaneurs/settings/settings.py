@@ -123,4 +123,4 @@ LEAFLET_CONFIG = {
     ]
 }
 
-SPATIALITE_LIBRARY_PATH = 'mod_spatialite'
+#SPATIALITE_LIBRARY_PATH = 'mod_spatialite'
