@@ -1,7 +1,7 @@
 "use strict";
 
-var center = [46.3507193554773, 2.603759765625]; //Montluçon
-var zoom = 6;
+var center = [44.572778, -0.190556]; //Saint Pierre d'Aurillac
+var zoom = 13;
 var map = L.map('mapid').setView(center, zoom);
 
 var markers = [];
