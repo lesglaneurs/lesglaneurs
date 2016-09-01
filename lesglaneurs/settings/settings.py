@@ -99,7 +99,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = (
-    PROJECT_DIR + '/static/',
+    PROJECT_DIR + '/presentation/static/',
 )
 
 TEMPLATE_DIRS = (
