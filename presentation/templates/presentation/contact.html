@@ -17,6 +17,7 @@
     <!-- <script type="text/javascript" src="{% static 'presentation/js/jquery.min.js' %}" ></script> -->
     <script type="text/javascript" src="{% static 'presentation/js/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'presentation/js/dataTables/getContact.js' %}"></script>
+    <script type="text/javascript" src="{% static 'presentation/js/dataTables/contacts.js' %}"></script>
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
 
     <style>
@@ -30,17 +31,6 @@
       .ui-dialog .ui-state-error { padding: .3em; }
       .validateTips { border: 1px solid transparent; padding: 0.3em; }
     </style>
-    <script>
-      $(document).ready( 
-      function () {
-      $('#users').DataTable( {
-      "searching": false,
-      "bLengthChange": false,
-      "bInfo": false,
-      "bPaginate": false
-      });
-      });
-    </script>
   </head>
 
   <body>
