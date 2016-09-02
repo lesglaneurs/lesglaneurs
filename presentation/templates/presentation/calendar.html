@@ -20,44 +20,53 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/lang/fr.js"></script>
   </head>
   <body>
-    <div id="calendar">
-      <div id="fullcalmodal" class="modal fade">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <p style="float:middle" class="modal-title">
-                <span id="event_title" style="position:absolute; margin-left:5%">
-                </span>
-                <img id="project_logo" style="float:left; max-width:100%; height:auto;" width="128" height="128">
-              </p>
-            </div>
-            <div class="modal-body">
-              <p id="event_description"></p>
+    <div class="container">
+      <div >
+	<form action="/local/presentation/event_add" method="post">
+	  {% csrf_token %}
+	  {{ form }}
+	  <input type="submit" value="Nouvel événement" />
+	</form>
+      </div>
+      <div id="calendar">
+	<div id="fullcalmodal" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+		<p style="float:middle" class="modal-title">
+                  <span id="event_title" style="position:absolute; margin-left:5%">
+                  </span>
+                  <img id="project_logo" style="float:left; max-width:100%; height:auto;" width="128" height="128">
+		</p>
+              </div>
+              <div class="modal-body">
+		<p id="event_description"></p>
 
-              <span class="identity_sub_title">Organisé par :</span>
-              <span class="identity_paragraph" id="project_name"></span><br>
+		<span class="identity_sub_title">Organisé par :</span>
+		<span class="identity_paragraph" id="project_name"></span><br>
 
-              <span class="identity_sub_title">Contact :</span>
-              <span class="identity_paragraph" id="contact_name"></span><br>
+		<span class="identity_sub_title">Contact :</span>
+		<span class="identity_paragraph" id="contact_name"></span><br>
 
-              <span class="identity_sub_title">Email :</span>
-              <span class="identity_paragraph" id="contact_email"></span><br>
+		<span class="identity_sub_title">Email :</span>
+		<span class="identity_paragraph" id="contact_email"></span><br>
 
-              <span class="identity_sub_title">Téléphone :</span>
-              <span class="identity_paragraph" id="contact_phone"></span><br>
+		<span class="identity_sub_title">Téléphone :</span>
+		<span class="identity_paragraph" id="contact_phone"></span><br>
 
-              <!--<p id="event_place"></p>-->
-              <!--<p id="inscription"></p>-->
-              <!--<p id="event_details_link"></p>-->
-              <span class="identity_sub_title">Site Internet :</span>
-              <a class="identity_paragraph" id="project_site" target="_blank"></a><br>
+		<!--<p id="event_place"></p>-->
+		<!--<p id="inscription"></p>-->
+		<!--<p id="event_details_link"></p>-->
+		<span class="identity_sub_title">Site Internet :</span>
+		<a class="identity_paragraph" id="project_site" target="_blank"></a><br>
 
-              <!--<a id="link" href="link"></a>-->
-            </div>
-            <div class="modal-footer">
+		<!--<a id="link" href="link"></a>-->
+              </div>
+              <div class="modal-footer">
+              </div>
             </div>
           </div>
-        </div>
+	</div>	
       </div>
     </div>
   </body>

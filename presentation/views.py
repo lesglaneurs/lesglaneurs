@@ -17,6 +17,7 @@ from django.utils import timezone
 from django.utils.datastructures import OrderedDict
 
 from .models import Address, Project, Story, Event, Person, Membership, Role, Garden, Plant, PlantSpecies
+from .forms import ContactForm, EventForm
 
 ## Global functions
 def jsonify(objects):
@@ -230,7 +231,27 @@ def calendar(request):
 def wireframe(request):
     return render(request, 'presentation/wireframe.html')
 
-from .forms import ContactForm
+def event_add(request):
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = EventForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            event = Event(name = data['name'],
+                          start_date = data['start_date'],
+                          end_date = data['end_date'],
+                          description = data['description'],
+                          project = data['project']
+            )
+            event.save()
+            return HttpResponseRedirect('/local/presentation/calendar')
+        else:
+            return HttpResponseRedirect('/local/presentation/event_add')
+    else:
+        form = EventForm()
+    return render(request, 'presentation/calendar.html', {'form': form,
+                                                          'events': Event.objects.all(),
+                                                          'persons': Person.objects.all()})
 
 def contact_add(request):
     if request.method == 'POST':
