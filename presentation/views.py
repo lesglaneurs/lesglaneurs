@@ -230,12 +230,12 @@ def calendar(request):
 def wireframe(request):
     return render(request, 'presentation/wireframe.html')
 
-from .forms import NameForm
+from .forms import ContactForm
 
 def contact_add(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = NameForm(request.POST)
+        form = ContactForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
             person = Person(name = data['name'],
@@ -246,7 +246,7 @@ def contact_add(request):
         else:
             return HttpResponseRedirect('/local/presentation/contact_add')
     else:
-        form = NameForm()
+        form = ContactForm()
     return render(request, 'presentation/contact.html', {'form': form, 
                                                          'persons': Person.objects.all()})
 
