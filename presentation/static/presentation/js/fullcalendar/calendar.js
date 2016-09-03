@@ -9,14 +9,19 @@ $(document).ready(function()
                 firstDay:1, //start with Monday
                 lang:"fr",  //French
                 header:{
-                            left:   'title',
-                            center: '',
-                            right:  'today prev,next', //prev and next arrows position in header
-                        },
+                    left:   '',
+                    center: '',
+                    right:  'title, prev,next', //prev and next arrows position in header
+                },
                 height:"auto", //show all weeks with no scrollbar
                 fixedWeekCount:false, //adjust number of weeks 4, 5 or 6 automatically
                 theme:false,   //can be overwridden with JQuery themes to change bottons format
-
+		defaultView:"month", 
+		views: {
+		    month: {
+			titleFormat: 'MMM'
+		    }
+		},
                 //Calendar Function
                  eventClick:function(event, jsEvent, view)
                  {
