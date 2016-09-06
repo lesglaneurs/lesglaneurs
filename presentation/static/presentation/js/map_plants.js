@@ -65,17 +65,22 @@ function display_garden(index, garden) {
 
 
 function display() {
-    console.log("map plants");
+    var url = '../plants_info';
 
-    var url = '../plants/';
-    var args = [];
-    var garden = $('#gardens').val();
-    var plant = $('#plants').val();
-
-    markers.forEach(function(element, index, array){
+    // manage filters
+    var args = [];  
+    var plant = $('#plants').val()
+    if (plant !== 'Tous') {
+        args.push('plant=' + plant)
+    }
+    if (args.length !== 0) {
+        url = url + '?' + args.join('&')
+    }
+    markers.forEach(function(element){
         map.removeLayer(element)
     });
 
+    // create map markers
     markers = [];
     $.getJSON(url, function(data) {
         $.each(data['plants'], display_plant)
@@ -85,9 +90,5 @@ function display() {
 }
 
 $('#plants').on('change', display);
-
-$('#gardens').on('change', display);
-
-$('#owners').on('change', display);
 
 display()

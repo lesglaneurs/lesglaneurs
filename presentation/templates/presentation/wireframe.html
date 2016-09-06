@@ -11,14 +11,6 @@
     <link rel="stylesheet" href="{% static 'presentation/css/style.css' %}" >
     <script type="text/javascript" src="{% static 'presentation/js/jquery.min.js' %}" ></script>
     <script type="text/javascript" src="{% static 'presentation/js/bootstrap.min.js' %}"></script>
-<script LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT"> 
-  var s=document.createElement("script");
-  s.onload=function(){
-    bootlint.showLintReportForCurrentDocument([]);
-  };
-  s.src="https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";
-  document.body.appendChild(s);
-</script>
 </head>
 
 <body>
@@ -27,20 +19,7 @@
     <div class="row">
       <div class="col-md-3 logo">
         <img src="{% static 'presentation/images/logo.jpg' %}" class="img-responsive" alt="Logo">
-	<div style="text-align:center">	
-	  Gérer Profil
-	</div>
       </div>
-
-      <!-- <div class="col-md-6" style="margin-top: 50px; margin-left: 25%;"> -->
-	<!-- <div class="col-md-6" style="margin-left: -50%"> -->
-        <!--   <button type="button" class="btn btn-default" data-dismiss="modal">Ajouter contact</button> -->
-	<!-- </div> -->
-	<!-- <div class="col-md-6"> -->
-	  <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Ajouter évenement</button> -->
-	<!-- </div> -->
-      <!-- </div> -->
-
     </div>
 
     <!-- Body-->
@@ -59,7 +38,7 @@
       
       <!-- Map -->
       <div class="col-md-6">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Rechercher Espèce</button>
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Rechercher Espèce</button> -->
 	
 	<div class="embed-responsive" style="padding-bottom:75%">
 	  <iframe class="embed-responsive-item" src="{% static '../local/presentation/map/plants' %}"></iframe>

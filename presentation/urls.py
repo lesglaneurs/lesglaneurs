@@ -22,6 +22,7 @@ urlpatterns = patterns('',
                        url(r'^map_events', views.map_events, name='map_events'),
                        url(r'^gardens/$', views.gardens, name='gardens'),
                        url(r'^plants/$',  views.plants, name='plants'),
+                       url(r'^plants_info',  views.plants_info, name='plants_info'),
                        url(r'^persons/$', views.persons, name='persons'),
 
                        # DB operations

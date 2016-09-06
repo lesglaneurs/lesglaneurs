@@ -210,8 +210,22 @@ def garden_details(garden):
     return garden_details
 
 def plants(request):
-    plants_details = []
+    plants = []
     for plant in Plant.objects.all():
+        plants.append({
+            'name': jsonify(PlantSpecies.objects.get(pk = plant.name.id))['fields']['name'],
+            'garden': garden_details(Garden.objects.get(pk = plant.garden.id))
+        }),
+    return JsonResponse({'plants': plants})
+
+def plants_info(request):
+    plants = Plant.objects.all()
+    plant = request.GET.get('plant')
+    if plant:
+        plant_name = PlantSpecies.objects.get(name = plant)
+        plants = plants.filter(name = plant_name)
+    plants_details = []
+    for plant in plants:
         plants_details.append({
             'name': jsonify(PlantSpecies.objects.get(pk = plant.name.id))['fields']['name'],
             'garden': garden_details(Garden.objects.get(pk = plant.garden.id))

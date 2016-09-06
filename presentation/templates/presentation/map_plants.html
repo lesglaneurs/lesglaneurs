@@ -15,6 +15,17 @@
 <body>
   <div id="mapid"></div>
 
+  <div id="lesglaneurs" class="leaflet-container leaflet-control-layers leaflet-control-layers-expanded">
+    <div>Arbres/Plantes</div>
+    <div>
+      <select type="text" id="plants">
+        {% for plant in plants  %}
+        <option value="{{ plant }}">{{ plant }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
   <!-- The script below must be included after the declaration of the map
   container and of the controls-->
   <script src="{% static 'presentation/js/map_plants.js' %}"></script>
