@@ -65,11 +65,13 @@ function display() {
     if (args.length !== 0) {
         url = url + '?' + args.join('&')
     }
-
+    console.log('url', url)
+    console.log('markers', markers)
     for (var index in markers) {
         map.removeLayer(markers[index]);
     }
     markers = [];
+    console.log('markers_empty', markers)
     $.getJSON(url, function(data) {
         $.each(data['events'], display_event)
             }).fail(function() {

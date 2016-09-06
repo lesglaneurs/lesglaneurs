@@ -46,23 +46,16 @@ function display_garden(index, garden) {
 
 
 function display() {
-    console.log("javascript");
     var url = '../gardens/';
     var args = [];
     var garden = $('#gardens').val();
-    console.log("gardens");
-    console.log(garden);
-    console.log(markers);
-
-    markers.forEach(function(element, index, array){
+    
+    markers.forEach(function(element){
         map.removeLayer(element)
     });
-    console.log(markers);
-
+    
     markers = [];
     $.getJSON(url, function(data) {
-        console.log("data")
-        console.log(data)
         $.each(data['gardens'], display_garden)
             }).fail(function() {
                 console.log('fail');
