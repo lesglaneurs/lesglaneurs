@@ -275,7 +275,8 @@ def contact_add(request):
             data = form.cleaned_data
             person = Person(name = data['name'],
                             surname = data['surname'],
-                            email = data['email'])
+                            email = data['email'],
+                            telephone = data['telephone'])
             person.save()
             return HttpResponseRedirect('/local/presentation/contacts')
         else:

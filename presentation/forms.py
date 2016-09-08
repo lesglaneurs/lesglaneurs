@@ -6,6 +6,7 @@ class ContactForm(forms.Form):
     name = forms.CharField(label='Prénom', max_length=100)
     surname = forms.CharField(label='Nom', max_length=100)
     email = forms.CharField(label='Email', max_length=100)
+    telephone = forms.CharField(label='Téléphone', max_length=14)
 
 class EventForm(forms.ModelForm):
     class Meta:
