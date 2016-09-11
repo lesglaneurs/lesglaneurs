@@ -38,7 +38,7 @@
       <div >
 	<form action="/local/presentation/contact_add" method="post">
 	  {% csrf_token %}
-	  {{ form }}
+	  {{ form }} {{ form_address }}
 	  <input type="submit" value="Nouveau contact" />
 	</form>
 	

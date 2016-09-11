@@ -17,7 +17,7 @@ from django.utils import timezone
 from django.utils.datastructures import OrderedDict
 
 from .models import Address, Project, Story, Event, Person, Membership, Role, Garden, Plant, PlantSpecies
-from .forms import ContactForm, EventForm
+from .forms import ContactForm, AddressForm, EventForm
 
 ## Global functions
 def jsonify(objects):
@@ -271,19 +271,28 @@ def contact_add(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = ContactForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            person = Person(name = data['name'],
-                            surname = data['surname'],
-                            email = data['email'],
-                            telephone = data['telephone'])
+        form_address = AddressForm(request.POST)
+        if form.is_valid() and form_address.is_valid():
+            data_address = form_address.cleaned_data
+            address = Address(address = data_address['address'],
+                              city = data_address['city'],
+                              code = data_address['code'])
+            address.save()
+            data_person = form.cleaned_data
+            person = Person(name = data_person['name'],
+                            surname = data_person['surname'],
+                            email = data_person['email'],
+                            telephone = data_person['telephone'],
+                            address = Address.objects.get(pk = address.id))
             person.save()
             return HttpResponseRedirect('/local/presentation/contacts')
         else:
             return HttpResponseRedirect('/local/presentation/contact_add')
     else:
         form = ContactForm()
-    return render(request, 'presentation/contact.html', {'form': form, 
+        form_address = AddressForm()
+    return render(request, 'presentation/contact.html', {'form': form,
+                                                         'form_address': form_address,
                                                          'persons': Person.objects.all()})
 
 def contacts(request):
