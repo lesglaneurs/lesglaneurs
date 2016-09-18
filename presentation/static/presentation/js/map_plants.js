@@ -17,20 +17,20 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 
 
 function display_plant(index, plant) {
-        var garden = plant.garden[0];
-        var address = garden.address;
-
-        var point_prefix = 'SRID=4326;POINT ('
-        var point_suffix = ')'
-        var lon_lat = address.point.slice(point_prefix.length, -point_suffix.length).split(' ')
+    var garden = plant.garden[0];
+    var address = garden.address;
+    if (address.point != null) {
+	var point_prefix = 'SRID=4326;POINT (';
+        var point_suffix = ')';
+        var lon_lat = address.point.slice(point_prefix.length, -point_suffix.length).split(' ');
         var marker = L.marker([lon_lat[1], lon_lat[0]]).addTo(map);
 
         var content = '' +
-                    '<b>Plante</b>: ' + plant.name + '</br>' +
-                    '<b>Chez</b>: ' + garden.person.name + ' ' + garden.person.surname + '</br>' +
-                    '<b>Adresse</b> : ' + address.address + '</br>' +
-                    '<b>Ville</b> : ' + address.city + '</br>' +
-                    '<b>Code postal</b> : ' + address.code;
+            '<b>Plante</b>: ' + plant.name + '</br>' +
+            '<b>Chez</b>: ' + garden.person.name + ' ' + garden.person.surname + '</br>' +
+            '<b>Adresse</b> : ' + address.address + '</br>' +
+            '<b>Ville</b> : ' + address.city + '</br>' +
+            '<b>Code postal</b> : ' + address.code;
 
         marker.bindPopup(content);
         marker.on('mouseover', function (e) {
@@ -40,6 +40,9 @@ function display_plant(index, plant) {
             this.closePopup();
         });
         markers.push(marker);
+    } else {
+	console.log('null address point for garden:', garden);
+    }
 }
 
 function display_garden(index, garden) {
