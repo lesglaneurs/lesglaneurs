@@ -168,7 +168,7 @@ class Event(models.Model):
 class Garden(models.Model):
 
     class Meta:
-        verbose_name = 'Lieu'
+        verbose_name = 'Terrain'
 
     surface = models.PositiveIntegerField('Surface (m2)',
                                           blank=True,
@@ -208,7 +208,11 @@ class Plant(models.Model):
     name = models.ForeignKey(PlantSpecies,
                              verbose_name='Nom')
     garden = models.ForeignKey(Garden,
+                               verbose_name='Terrain',
                                null=True)
+    number = models.IntegerField(u'nombre de pieds',
+                                 blank=True,
+                                 null=True)
     harvest_start_date = models.DateField(
         u'Date estimée de début de récolte sur ce terrain',
         blank=True,
