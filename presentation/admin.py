@@ -22,6 +22,7 @@ admin.site.register(Person)
 admin.site.register(Membership)
 admin.site.register(Plant)
 admin.site.register(PlantSpecies)
+admin.site.register(Garden)
 admin.site.register(Project)
 admin.site.register(ProjectProfile)
 admin.site.register(Role)
@@ -46,10 +47,3 @@ class PersonAdmin(NestedTabularInline):
 
     extra = 1
     model = Person
-
-class GardenAdmin(NestedModelAdmin):
-
-    model = Garden
-    inlines = [PlantAdmin]
-
-admin.site.register(Garden, GardenAdmin)
