@@ -87,11 +87,11 @@ class Person(models.Model):
     class Meta:
         verbose_name = 'Personne'
 
-    name = models.CharField('Prénom',
+    firstname = models.CharField('Prénom',
                             max_length=128,
                             blank=True,
                             null=True)
-    surname = models.CharField('Nom',
+    lastname = models.CharField('Nom',
                                 max_length=128,
                                 blank=True,
                                 null=True)
@@ -117,7 +117,7 @@ class Person(models.Model):
         )
 
     def __unicode__(self):
-        return unicode(self.name) + ' ' + unicode(self.surname)
+        return unicode(self.firstname) + ' ' + unicode(self.lastname)
 
 class Role(models.Model):
     class Meta: verbose_name = 'Role'
@@ -178,7 +178,7 @@ class Garden(models.Model):
                                 verbose_name='Adresse')
 
     def __unicode__(self):
-        return u'terrain de ' + unicode(self.person.name) + u' au ' + unicode(self.address.address)
+        return u'terrain de ' + unicode(self.person.firstname) + u' au ' + unicode(self.address.address)
 
 class PlantSpecies(models.Model):
 

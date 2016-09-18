@@ -29,8 +29,8 @@ def jsonify(objects):
 
 ## Get data for map filters
 def get_persons():
-    persons = Person.objects.order_by('name').values('name').distinct()
-    return ['Tous'] + [person['name'] for person in persons]
+    persons = Person.objects.order_by('firstname').values('firstname').distinct()
+    return ['Tous'] + [person['firstname'] for person in persons]
 
 def get_memberships():
     memberships = Membership.objects.order_by('person').distinct()
@@ -38,7 +38,7 @@ def get_memberships():
 
 def get_gardens():
     [gardens] = Garden.objects.all(),
-    return ['Tous'] + ['jardin de ' + unicode(garden.person.name)
+    return ['Tous'] + ['jardin de ' + unicode(garden.person.firstname)
                        for garden in gardens]
 
 def get_plants():
@@ -155,7 +155,7 @@ def populate_db(addresses):
         event_record.save()
         print 'Creating item #{} in the database'.format(index)
 
-    persons_records = [Person(name=first_name, surname="Dutronc")
+    persons_records = [Person(firstname=first_name, lastname="Dutronc")
                        for first_name in [u'Aurelie', 'Bernard', 'Camille']]
     [person_record.save() for person_record in persons_records]
 
@@ -184,7 +184,7 @@ def map_events(request):
         project_contacts = Membership.objects.filter(project__name__exact=event.project, role__name__exact='contact')
         contact_name = "nom du contact indisponible"
         if project_contacts:
-            contact_name = project_contacts[0].person.name + ' ' + project_contacts[0].person.surname
+            contact_name = project_contacts[0].person.firstname + ' ' + project_contacts[0].person.lastname
         events_details.append({'name': event.name,
                                'start_date': event.start_date,
                                'end_date': event.end_date,
@@ -279,8 +279,8 @@ def contact_add(request):
                               code = data_address['code'])
             address.save()
             data_person = form.cleaned_data
-            person = Person(name = data_person['name'],
-                            surname = data_person['surname'],
+            person = Person(firstname = data_person['firstname'],
+                            lastname = data_person['lastname'],
                             email = data_person['email'],
                             telephone = data_person['telephone'],
                             address = Address.objects.get(pk = address.id))

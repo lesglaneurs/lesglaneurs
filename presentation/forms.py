@@ -5,7 +5,7 @@ from .models import Person, Address, Event
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Person
-        fields = ['name', 'surname', 'email', 'telephone']
+        fields = ['firstname', 'lastname', 'email', 'telephone']
 
 class AddressForm(forms.ModelForm):
     class Meta:

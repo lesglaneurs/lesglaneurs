@@ -27,7 +27,7 @@ function display_plant(index, plant) {
 
         var content = '' +
             '<b>Plante</b>: ' + plant.name + '</br>' +
-            '<b>Chez</b>: ' + garden.person.name + ' ' + garden.person.surname + '</br>' +
+            '<b>Chez</b>: ' + garden.person.firstname + ' ' + garden.person.lastname + '</br>' +
             '<b>Adresse</b> : ' + address.address + '</br>' +
             '<b>Ville</b> : ' + address.city + '</br>' +
             '<b>Code postal</b> : ' + address.code;
@@ -51,7 +51,7 @@ function display_garden(index, garden) {
                                address.longitude]).addTo(map);
 
         var content = '' +
-            '<b>Nom du proprietaire</b>: ' + garden.person.name + '</br>' +
+            '<b>Nom du proprietaire</b>: ' + garden.person.firstname + '</br>' +
             '<b>Adresse</b> : ' + address.address + '</br>' +
             '<b>Ville</b> : ' + address.city + '</br>' +
             '<b>Code postal</b> : ' + address.code;
