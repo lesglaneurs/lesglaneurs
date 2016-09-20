@@ -60,11 +60,9 @@
 	</table>
       </div>
       <div>
-	<form action="/local/presentation/contact_add" method="post" style="display:inline">
-	  {% csrf_token %}
-	  {{ form }} {{ form_address }}
-	  <input type="submit" value="Nouveau contact" style="display:inline"/>
-	</form>
+        <form action="/local/presentation/contact_add" style="display:inline">
+          <input type="submit" value="Nouveau contact" style="display:inline"/>
+        </form>
         <form style="display:inline">
           <input type="submit" value="Envoyer un email" style="display:inline"/>
         </form>

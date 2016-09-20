@@ -17,7 +17,7 @@ from django.utils import timezone
 from django.utils.datastructures import OrderedDict
 
 from .models import Address, Project, Story, Event, Person, Membership, Role, Garden, Plant, PlantSpecies
-from .forms import ContactForm, AddressForm, EventForm
+from .forms import ContactForm, AddressForm, PlantForm, EventForm, GardenForm
 
 ## Global functions
 def jsonify(objects):
@@ -272,7 +272,11 @@ def contact_add(request):
         # create a form instance and populate it with data from the request:
         form = ContactForm(request.POST)
         form_address = AddressForm(request.POST)
-        if form.is_valid() and form_address.is_valid():
+        form_plant = PlantForm(request.POST)
+        form_garden = GardenForm(request.POST)
+
+
+        if form.is_valid() and form_address.is_valid() :
             data_address = form_address.cleaned_data
             address = Address(address = data_address['address'],
                               city = data_address['city'],
@@ -285,14 +289,35 @@ def contact_add(request):
                             telephone = data_person['telephone'],
                             address = Address.objects.get(pk = address.id))
             person.save()
+
+            if  form_plant.is_valid() and form_garden.is_valid():
+
+                data_garden = form_garden.cleaned_data
+                garden = Garden(surface = data_garden['surface'],
+                                person = Person.objects.get(pk = person.id),
+                                address = Address.objects.get(pk = address.id))
+                garden.save()
+
+                data_plant = form_plant.cleaned_data
+                plant = Plant(name = data_plant['name'],
+                              number = data_plant['number'],
+                              garden = Garden.objects.get(pk = garden.id))
+                plant.save()
+
             return HttpResponseRedirect('/local/presentation/contacts')
         else:
+
             return HttpResponseRedirect('/local/presentation/contact_add')
     else:
         form = ContactForm()
         form_address = AddressForm()
-    return render(request, 'presentation/contact.html', {'form': form,
+        form_plant = PlantForm()
+        form_garden = GardenForm()
+    return render(request, 'presentation/contact_add.html', {'form': form,
                                                          'form_address': form_address,
+                                                         'form_plant': form_plant,
+                                                             'form_garden': form_garden,
+                                                         'plants': Plant.objects.all(),
                                                          'persons': Person.objects.all()})
 
 def contacts(request):

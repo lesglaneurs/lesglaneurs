@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+{% static "presentation/images/" as images %}
+<html>
+<head lang="fr">
+    <meta charset="UTF-8">
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0">
+    <!-- General CSS & JS -->
+    <link type="text/css" href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" >
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
+    <link type="text/css" href="{% static 'presentation/css/style.css' %}" rel="stylesheet" >
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+    <!-- <script type="text/javascript" src="{% static 'presentation/js/jquery.min.js' %}" ></script> -->
+    <script type="text/javascript" src="{% static 'presentation/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'presentation/js/dataTables/getContact.js' %}"></script>
+    <script type="text/javascript" src="{% static 'presentation/js/dataTables/contacts.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
+
+    <style>
+        label, input { display:block; }
+        input.text { margin-bottom:12px; width:95%; padding: .4em; }
+        fieldset { padding:0; border:0; margin-top:25px; }
+        h1 { font-size: 1.2em; margin: .6em 0; }
+        <!-- div#users-contain { width: 350px; margin: 20px 0; } -->
+        <!-- div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; } -->
+        <!-- div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; } -->
+        .ui-dialog .ui-state-error { padding: .3em; }
+        .validateTips { border: 1px solid transparent; padding: 0.3em; }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div>
+        <form action="/local/presentation/contact_add" method="post" style="display:inline">
+            {% csrf_token %}
+            {{ form }}
+            {{ form_address }}
+            <input class="cb_owner" type="checkbox">Propriétaire ?<br>
+	    <script type="text/javascript">
+	      $(".cb_owner").click(function() {
+	      if($(this).is(":checked")) {
+              $(".plant_form").show();
+	      } else {
+              $(".plant_form").hide();
+	      }
+	      });
+	    </script>
+            <div class="plant_form" style="display:none;">
+              Arbres ?
+              {{ form_plant }}
+            </div>
+	    
+            <input type="submit" value="Nouveau contact" style="display:inline"/>
+        </form>
+        <form style="display:inline">
+            {% csrf_token %}
+            <input type="submit" value="Envoyer un email" style="display:inline"/>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
