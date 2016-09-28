@@ -19,13 +19,11 @@ body{
 }
 
 .identity_title {
-    color:#D9105A;
     text-align:center;
     font-family: arial;
 }
 
 .identity_sub_title {
-    color: #D9105A;
     padding-top: 10px;
     margin-bottom: 0px;
 }
@@ -35,7 +33,6 @@ a {
 }
 
 .image_title {
-    color: #D9105A;
     font-weight: normal;
 }
 
