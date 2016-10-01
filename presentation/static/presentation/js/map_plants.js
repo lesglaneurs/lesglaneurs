@@ -6,6 +6,17 @@ var map = L.map('mapid').setView(center, zoom);
 
 var markers = [];
 
+var iconLesglaneurs = L.icon({
+    iconUrl: '/static/presentation/images/iconLesglaneurs.png',
+    shadowUrl: '/static/presentation/images/iconLesglaneurs_shadow.png',
+
+    iconSize:     [38, 38], // [38, 95],
+    shadowSize:   [38, 38], // [50, 64],
+    iconAnchor:   [22, 94], // [22, 94], point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 94],  // [4, 62], the same for the shadow
+    popupAnchor:  [-3, -76] // [-3, -76] point from which the popup should open relative to the iconAnchor
+});
+
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18,
@@ -23,7 +34,7 @@ function display_plant(index, plant) {
 	var point_prefix = 'SRID=4326;POINT (';
         var point_suffix = ')';
         var lon_lat = address.point.slice(point_prefix.length, -point_suffix.length).split(' ');
-        var marker = L.marker([lon_lat[1], lon_lat[0]]).addTo(map);
+        var marker = L.marker([lon_lat[1], lon_lat[0]], {icon: iconLesglaneurs}).addTo(map);
 
         var content = '' +
             '<b>Plante</b>: ' + plant.name + '</br>' +
@@ -47,8 +58,8 @@ function display_plant(index, plant) {
 
 function display_garden(index, garden) {
         var address = garden.address;
-        var marker = L.marker([address.latitude,
-                               address.longitude]).addTo(map);
+        var marker = L.marker([address.latitude,address.longitude],
+			      {icon: iconLesglaneurs}).addTo(map);
 
         var content = '' +
             '<b>Nom du proprietaire</b>: ' + garden.person.firstname + '</br>' +
