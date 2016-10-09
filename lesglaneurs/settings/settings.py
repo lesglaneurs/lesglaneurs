@@ -41,6 +41,7 @@ PREREQ_APPS = [
     'nested_inline',
     'django.contrib.gis',
     'leaflet',
+    'djangobower',
 ]
 
 PROJECT_APPS = [
@@ -48,6 +49,15 @@ PROJECT_APPS = [
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
+
+## Activate by calling : ./manage.py bower install
+BOWER_INSTALLED_APPS = (
+    'bootstrap#v4.0.0-alpha.4',
+    'jquery',
+    'jquery.ui',
+    'tether',
+    'datetimepicker',
+)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -94,6 +104,7 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(PROJECT_DIR, "static/")
 MEDIA_ROOT = os.path.join(PROJECT_DIR, "media/")
+BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_DIR, "components/")
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
@@ -106,6 +117,13 @@ TEMPLATE_DIRS = (
     PROJECT_DIR + '/templates/',
     PROJECT_DIR + '/presentation/templates/',
 )
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+)
+
 
 LEAFLET_CONFIG = {
     'DEFAULT_CENTER': (47, 1.7),
