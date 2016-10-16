@@ -350,7 +350,10 @@ def projects(request, project_id=None):
 
 
 def events(request):
-    events = Event.objects.all()
+
+    project_list = Project.objects.filter(admin_group__in = request.user.groups.all())
+    events = Event.objects.filter(project__in = project_list)
+
     calendar_events = []
     for event in events:
         project = get_object_or_404(Project, name=event.project)
