@@ -115,6 +115,7 @@ STATICFILES_DIRS = (
 
 TEMPLATE_DIRS = (
     PROJECT_DIR + '/templates/',
+    'lesglaneurs/templates/',
     PROJECT_DIR + '/presentation/templates/',
 )
 
