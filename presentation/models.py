@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.gis.db import models as gis_models
 from datetime import datetime
+from django.contrib.auth.models import Group
 
 # Create your models here.
 def user_directory_path(instance, filename):
@@ -58,6 +59,10 @@ class Project(models.Model):
     logo = models.ImageField('Logo du projet',
                              upload_to=user_directory_path,
                              blank=True, null=True)
+
+    user_group = models.ForeignKey(Group, related_name='simple', blank=True, null=True)
+    admin_group = models.ForeignKey(Group, related_name='admin', blank=True, null=True)
+
     def __unicode__(self):
         return unicode(self.name)
 
@@ -150,7 +155,8 @@ class Story(models.Model):
         return unicode(self.description)
 
 class Event(models.Model):
-    class Meta: verbose_name = 'Evénement'
+    class Meta:
+        verbose_name = 'Evénement'
 
     name = models.CharField(max_length=500)
     start_date = models.DateTimeField('Date de début', default=datetime.now, blank=True)
