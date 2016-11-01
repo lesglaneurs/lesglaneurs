@@ -2,7 +2,7 @@
 from django.db import models
 from django.contrib.gis.db import models as gis_models
 from datetime import datetime
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 
 # Create your models here.
 def user_directory_path(instance, filename):
@@ -114,7 +114,8 @@ class Person(models.Model):
     address = models.ForeignKey(Address,
                                 blank=True,
                                 null=True,
-                                verbose_name='Adresse')
+                                verbose_name='Adresse'),
+    user = models.ForeignKey(User, blank=True, null=True)
     projects = models.ManyToManyField(
                 Project,
                 through='Membership',

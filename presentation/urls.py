@@ -1,10 +1,12 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.views.generic import TemplateView
 from . import views
 admin.autodiscover()
 
 urlpatterns = patterns('',
                        #  url(r'^$', 'presentation.views.home', name='home'),
+                       url(r'^cgu/$', TemplateView.as_view(template_name="cgu.html")),
                        url(r'^events/$', views.events, name='events'),
                        url(r'^projects/$', views.projects, name='projects'),
                        url(r'^projects/(?P<project_id>[0-9]{1})?/$', views.projects, name='projects'),
@@ -16,6 +18,7 @@ urlpatterns = patterns('',
                        url(r'^contacts', views.contacts, name='contacts'),
                        url(r'^contact_add', views.contact_add, name='contact_add'),
                        url(r'^event_add', views.event_add, name='event_add'),
+                       url(r'^project_add', views.project_add, name='project_add'),
 
                        # JSON
                        url(r'^map_addresses', views.map_addresses, name='map_addresses'),
