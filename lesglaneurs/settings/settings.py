@@ -52,7 +52,7 @@ INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
 ## Activate by calling : ./manage.py bower install
 BOWER_INSTALLED_APPS = (
-    'bootstrap#v4.0.0-alpha.4',
+    'bootstrap',
     'jquery',
     'jquery.ui',
     'datatables',
