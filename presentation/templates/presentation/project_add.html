@@ -1,0 +1,87 @@
+{% load staticfiles %}
+
+
+<head>
+    <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" >
+
+</head>
+<body>
+
+    <div class="container">
+        <form class="form-signin" method="post" action="/local/presentation/project_add">
+            {% csrf_token %}
+            {% if form.errors %}
+                <h4 class="form-signin-heading"><font color="red">Compte ou mot de passe invalide</font></h4>
+            {% endif %}
+        <div class="row">
+
+            <div class="col-md-4 col-md-offset-2">
+
+
+                <!--Project-->
+                <h2 class="form-signin-heading">Le projet</h2>
+                <label for="inputName">Nom de l'association</label>
+                <div class="bg-danger">{{ project_form.name.errors }}</div>
+                <input id="inputName" class="form-control" placeholder="nom" name="name" {% if not project_form.name.value == None %} value="{{ project_form.name.value }}" {% endif %} required autofocus>
+                <br>
+                <label for="inputWebSite">url du site web</label>
+                <div class="bg-danger">{{ project_form.web_site.errors }}</div>
+                <input id="inputWebSite" class="form-control" placeholder="site web" name="web_site" {% if not project_form.web_site.value == None %} value="{{ project_form.web_site.value }}" {% endif %} required>
+
+
+            </div>
+
+            <div class="col-md-4">
+
+
+                <!--Contact-->
+                <h2 class="form-signin-heading">Mon compte</h2>
+                <p class="form-signin-heading">Ce compte pourra administrer votre projet. D'autres comptes pourront être créés par la suite</p>
+
+                <label for="{{ contact_form.firstname.id_for_label }}">{{ contact_form.firstname.label_tag }}</label>
+                <div class="bg-danger">{{ contact_form.firstname.errors }}</div>
+                <input id="{{ contact_form.firstname.id_for_label }}" class="form-control" placeholder="prénom" name="firstname" {% if not contact_form.firstname.value == None %} value="{{ contact_form.firstname.value }}" {% endif %} required autofocus>
+
+                <label for="inputContactLastName">Nom</label>
+                <div class="bg-danger">{{ contact_form.lastname.errors }}</div>
+                <input id="inputContactLastName" class="form-control" placeholder="nom" name="lastname" {% if not contact_form.lastname.value == None %} value="{{ contact_form.lastname.value }}" {% endif %} required autofocus>
+
+                <label for="inputContactMail">email</label>
+                <div class="bg-danger">{{ contact_form.email.errors }}</div>
+                <input id="inputContactMail" class="form-control" placeholder="email" name="email" {% if not contact_form.email.value == None %} value="{{ contact_form.email.value }}" {% endif %} required autofocus>
+                <br>
+
+                <!--User-->
+                <label for="inputContactMail">alias (sera utilisé comme identifiant sur le site)</label>
+                <div class="bg-danger">{{ user_form.username.errors }}</div>
+                <input id="inputContactAlias" class="form-control" placeholder="alias" name="username" {% if not user_form.username.value == None %} value="{{ user_form.username.value }}" {% endif %} required autofocus>
+
+                <label for="inputContactPassword">Mot de passe</label>
+                <div class="bg-danger">{{ user_form.password.errors }}</div>
+                <input type="password" id="inputContactPassword" class="form-control" placeholder="mot de passe" name="password">
+                <br>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4 col-md-offset-4">
+
+                <div class="checkbox">
+                    <label>
+                      <input type="checkbox" onchange="document.getElementById('createButton').disabled = !this.checked;">
+                        Oui, j'ai lu <a target="_blank" href="cgu/">les conditions d'utilisation</a> du site et je les accepte parce que je suis bien sympa.
+                    </label>
+                </div>
+
+                <input id="createButton" class="btn btn-lg btn-primary btn-block" type="submit" value="Créer" disabled="disabled"/>
+                <input type="hidden" name="next" value="{{ next }}"/>
+
+            </div>
+        </div>
+        </form>
+
+
+
+    </div>
+</body>

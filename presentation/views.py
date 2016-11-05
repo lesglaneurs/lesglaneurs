@@ -15,9 +15,11 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.utils.datastructures import OrderedDict
+from django.contrib.auth.models import Group, User
+from django.contrib.auth import authenticate, login
 
 from .models import Address, Project, Story, Event, Person, Membership, Role, Garden, Plant, PlantSpecies
-from .forms import ContactForm, AddressForm, PlantForm, EventForm, GardenForm
+from .forms import ContactForm, AddressForm, PlantForm, EventForm, GardenForm, ProjectForm, UserForm
 
 ## Global functions
 def jsonify(objects):
@@ -380,3 +382,62 @@ def events(request):
             })
     return JsonResponse(calendar_events, safe=False)
 
+
+def project_add(request):
+    if request.method == 'POST':
+
+        project_form = ProjectForm(request.POST)
+        contact_form = ContactForm(request.POST)
+        user_form = UserForm(request.POST)
+
+        if project_form.is_valid() and contact_form.is_valid() and user_form.is_valid():
+
+            # project
+            project_form.clean()
+            project_data = project_form.cleaned_data
+
+            project_group = Group()
+            project_group.name = project_data['name']+'_admin'
+            project_group.save()
+            project = Project(name = project_data['name'],
+                              web_site = project_data['web_site'],
+                              admin_group = project_group)
+
+            # user
+            user_data = user_form.cleaned_data
+
+            # if User.objects.filter(username=user_data['username']).exists():
+            #     raise forms.ValidationError(u'Username "%s" is already in use.' % user_data['username'])
+            # else:
+            user = User.objects.create_user(username=user_data['username'],
+                                            password = user_data['password'])
+
+            project_group.user_set.add(user)
+
+            # contact
+            contact_data = contact_form.cleaned_data
+
+            # if Person.objects.filter(email=contact_data['email']).exists():
+            #     raise forms.ValidationError(u'Username "%s" is already in use.' % user_data['username'])
+            # else:
+            contact = Person(firstname = contact_data['firstname'],
+                             lastname = contact_data['lastname'],
+                             email = contact_data['email'],
+                             #telephone = contact_data['telephone'],
+                             user = user)
+            contact.save()
+
+
+            project.save()
+
+            # automatically login
+            user = authenticate(username=user_data['username'],
+                                password = user_data['password'])
+            login(request, user)
+            return HttpResponseRedirect("wireframe/")
+    else:
+        user_form = UserForm()
+        project_form = ProjectForm()
+        contact_form = ContactForm()
+
+    return render(request, 'presentation/project_add.html', {'project_form': project_form, 'contact_form': contact_form, 'user_form': user_form})
