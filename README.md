@@ -25,6 +25,7 @@ Set up the project itself (let us assume your name is John Doe):
 
     cd ~/lesglaneurs
     pip install -r requirements.txt
+    ./manage.py bower install
     python manage.py makemigrations
     python manage.py migrate
     python manage.py createsuperuser --username=johndoe --email=johndoe@gmail.com
@@ -62,3 +63,13 @@ If it does not work, check first the directory containing the library:
     python -c 'import pysqlite2; import os; print os.path.dirname(pysqlite2.__file__)'
 
 And then, check that all files have been updated by the installation, especially the .so.
+
+# Addition of new packages
+
+When you want to add a new external component, please follow below instructions.
+
+Using pip :
+    add the package and version in requirements.txt
+
+Using bower :
+    add the package in lesglaneurs/settings/settings.py, in BOWER_INSTALLED_APP

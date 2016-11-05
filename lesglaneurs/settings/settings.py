@@ -55,6 +55,8 @@ BOWER_INSTALLED_APPS = (
     'bootstrap#v4.0.0-alpha.4',
     'jquery',
     'jquery.ui',
+    'datatables',
+    'fullcalendar',
     'tether',
     'datetimepicker',
 )
