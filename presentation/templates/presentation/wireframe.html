@@ -33,12 +33,12 @@
             <div class="pull-right">
                 {% if not user.is_anonymous %}
                     {{ user }}
-                    <a class="btn btn-default btn-lg" href="/accounts/logout?next=/local/presentation/wireframe" role="button">logout</a>
+                    {% if user.is_superuser %}
+                        <a class="btn btn-default btn-lg" href="project_add" role="button">Créer un projet</a>
+                    {% endif %}
+                    <a class="btn btn-default btn-lg" href="/local/accounts/logout?next=/local/presentation/wireframe" role="button">Déconnexion</a>
                 {% else %}
-                                    <a class="btn btn-default btn-lg" href="project_add" role="button">Créer un compte</a>
-
-                    <a class="btn btn-default btn-lg" href="/accounts/login?next=/local/presentation/wireframe" role="button">Se connecter</a>
-
+                    <a class="btn btn-default btn-lg" href="/local/accounts/login?next=/local/presentation/wireframe" role="button">Se connecter</a>
                 {% endif %}
             </div>
         </div>
