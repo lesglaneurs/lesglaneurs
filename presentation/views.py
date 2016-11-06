@@ -250,6 +250,8 @@ def wireframe(request):
 def event_add(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
+        project_list = Project.objects.filter(admin_group__in = request.user.groups.all())
+
         form = EventForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -269,6 +271,7 @@ def event_add(request):
                                                           'events': Event.objects.all(),
                                                           'persons': Person.objects.all()})
 
+
 def contact_add(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -277,38 +280,54 @@ def contact_add(request):
         form_plant = PlantForm(request.POST)
         form_garden = GardenForm(request.POST)
 
+        if form.is_valid():
+            # address form can be invalid or empty  < to be enhanced
+            if not form_address.is_valid():
+                address = None
+            else:
+                data_address = form_address.cleaned_data
 
-        if form.is_valid() and form_address.is_valid() :
-            data_address = form_address.cleaned_data
-            address = Address(address = data_address['address'],
-                              city = data_address['city'],
-                              code = data_address['code'])
-            address.save()
+                address = Address(address=data_address['address'],
+                                  city=data_address['city'],
+                                  code=data_address['code'])
+                address.save()
+
             data_person = form.cleaned_data
-            person = Person(firstname = data_person['firstname'],
-                            lastname = data_person['lastname'],
-                            email = data_person['email'],
-                            telephone = data_person['telephone'],
-                            address = Address.objects.get(pk = address.id))
+
+            # phone can be empty
+            if 'telephone' not in data_person:
+                data_person['telephone'] = None
+
+            # save contact
+            person = Person(firstname=data_person['firstname'],
+                            lastname=data_person['lastname'],
+                            email=data_person['email'],
+                            telephone=data_person['telephone'],
+                            )
             person.save()
 
-            if  form_plant.is_valid() and form_garden.is_valid():
+            # add membership to new contact
+            project_list = Project.objects.filter(admin_group__in=request.user.groups.all())
+            role = Role.objects.get_or_create(name='membre')[0]
+            membership = Membership(person=person, project=project_list[0], role=role)
+            membership.save()
+
+            if form_plant.is_valid() and form_garden.is_valid():
 
                 data_garden = form_garden.cleaned_data
-                garden = Garden(surface = data_garden['surface'],
-                                person = Person.objects.get(pk = person.id),
-                                address = Address.objects.get(pk = address.id))
+                garden = Garden(surface=data_garden['surface'],
+                                person=Person.objects.get(pk=person.id),
+                                address=Address.objects.get(pk=address.id))
                 garden.save()
 
                 data_plant = form_plant.cleaned_data
-                plant = Plant(name = data_plant['name'],
-                              number = data_plant['number'],
-                              garden = Garden.objects.get(pk = garden.id))
+                plant = Plant(name=data_plant['name'],
+                              number=data_plant['number'],
+                              garden=Garden.objects.get(pk=garden.id))
                 plant.save()
 
             return HttpResponseRedirect('/local/presentation/contacts')
         else:
-
             return HttpResponseRedirect('/local/presentation/contact_add')
     else:
         form = ContactForm()
@@ -316,14 +335,19 @@ def contact_add(request):
         form_plant = PlantForm()
         form_garden = GardenForm()
     return render(request, 'presentation/contact_add.html', {'form': form,
-                                                         'form_address': form_address,
-                                                         'form_plant': form_plant,
+                                                             'form_address': form_address,
+                                                             'form_plant': form_plant,
                                                              'form_garden': form_garden,
-                                                         'plants': Plant.objects.all(),
-                                                         'persons': Person.objects.all()})
+                                                             'plants': Plant.objects.all(),
+                                                             'persons': Person.objects.all()})
+
 
 def contacts(request):
-    return render(request, 'presentation/contact.html', {'persons': Person.objects.all()})
+    # user > group > project > contacts
+    project_list = Project.objects.filter(admin_group__in=request.user.groups.all())
+    person_list = Person.objects.filter(projects__in=project_list)
+    return render(request, 'presentation/contact.html', {'persons': person_list})
+
 
 def projects(request, project_id=None):
     if project_id:
@@ -383,9 +407,29 @@ def events(request):
     return JsonResponse(calendar_events, safe=False)
 
 
-def project_add(request):
-    if request.method == 'POST':
+def contact_clean():
 
+    # clean persons not in any project
+    contact_in_membership = Membership.objects.all().values_list('person', flat=True)
+    for p in Person.objects.exclude(id__in=contact_in_membership):
+        p.delete()
+
+    # clean users not super admin and not linked to any person
+    user_in_contact = Person.objects.exclude(user = None).values_list('user', flat=True)
+    for u in User.objects.filter(is_superuser=False).exclude(id__in=user_in_contact):
+        u.delete()
+
+    # clean empty groups
+    group_empty = User.objects.exclude(groups=None).values_list('groups', flat=True)
+    for g in Group.objects.exclude(id__in=group_empty):
+        g.delete()
+
+
+
+def project_add(request):
+    contact_clean()
+
+    if request.method == 'POST':
         project_form = ProjectForm(request.POST)
         contact_form = ContactForm(request.POST)
         user_form = UserForm(request.POST)
@@ -426,9 +470,11 @@ def project_add(request):
                              #telephone = contact_data['telephone'],
                              user = user)
             contact.save()
-
-
             project.save()
+
+            # add membership to new contact
+            role = Role.objects.get_or_create(name='admin')[0]
+            Membership(person=contact, project=project, role=role).save()
 
             # automatically login
             user = authenticate(username=user_data['username'],

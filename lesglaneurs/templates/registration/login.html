@@ -11,14 +11,24 @@
     <div class="col-md-4 col-md-offset-4">
         <form class="form-signin" method="post" action="{% url 'django.contrib.auth.views.login' %}">
             {% csrf_token %}
-            {% if form.errors %}
-                <h4 class="form-signin-heading"><font color="red">Compte ou mot de passe invalide</font></h4>
-            {% endif %}
+
             <h2 class="form-signin-heading">Connectez-vous</h2>
+            {% if form.errors %}
+                <div class="bg-danger">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        {{error}}
+                    {% endfor %}
+                {% endfor %}
+                </div>
+                <br>
+            {% endif %}
+
+
             <input id="inputEmail" class="form-control" placeholder="compte" name="username" required autofocus>
-
+            <br>
             <input type="password" id="inputPassword" class="form-control" placeholder="mot de passe" name="password" required>
-
+            <br>
             <input class="btn btn-lg btn-primary btn-block" type="submit" value="login" />
             <input type="hidden" name="next" value="{{ next }}"/>
         </form>

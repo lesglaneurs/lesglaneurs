@@ -1,3 +1,50 @@
+<!--{% load staticfiles %}
+
+
+<>
+    <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" >
+    <style>
+        label, input { display:block; }
+        input.text { margin-bottom:12px; width:95%; padding: .4em; }
+        fieldset { padding:0; border:0; margin-top:25px; }
+        h1 { font-size: 1.2em; margin: .6em 0; }
+        &lt;!&ndash; div#users-contain { width: 350px; margin: 20px 0; } &ndash;&gt;
+        &lt;!&ndash; div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; } &ndash;&gt;
+        &lt;!&ndash; div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; } &ndash;&gt;
+        .ui-dialog .ui-state-error { padding: .3em; }
+        .validateTips { border: 1px solid transparent; padding: 0.3em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form class="form-signin" method="post" action="/local/presentation/contact_add">
+            {% csrf_token %}
+            {% if form.errors %}
+                <h4 class="form-signin-heading"><font color="red">Compte ou mot de passe invalide</font></h4>
+            {% endif %}
+        <div class="row">
+
+                &lt;!&ndash;Contact&ndash;&gt;
+
+                <label for="{{ contact_form.firstname.id_for_label }}">{{ contact_form.firstname.label_tag }}</label>
+                <div class="bg-danger">{{ contact_form.firstname.errors }}</div>
+                <input id="{{ contact_form.firstname.id_for_label }}" class="form-control" placeholder="prénom" name="firstname" {% if not contact_form.firstname.value == None %} value="{{ contact_form.firstname.value }}" {% endif %} required autofocus>
+
+                <label for="inputContactLastName">Nom</label>
+                <div class="bg-danger">{{ contact_form.lastname.errors }}</div>
+                <input id="inputContactLastName" class="form-control" placeholder="nom" name="lastname" {% if not contact_form.lastname.value == None %} value="{{ contact_form.lastname.value }}" {% endif %} required autofocus>
+
+                <label for="inputContactMail">email</label>
+                <div class="bg-danger">{{ contact_form.email.errors }}</div>
+                <input id="inputContactMail" class="form-control" placeholder="email" name="email" {% if not contact_form.email.value == None %} value="{{ contact_form.email.value }}" {% endif %} required autofocus>
+                <br>
+        </div>
+        </form>
+
+
+
+    </div>
+</body>-->
 <!DOCTYPE html>
 
 {% load staticfiles %}
@@ -68,3 +115,6 @@
 
 </body>
 </html>
+
+
+

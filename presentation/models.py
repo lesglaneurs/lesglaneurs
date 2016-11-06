@@ -114,7 +114,7 @@ class Person(models.Model):
     address = models.ForeignKey(Address,
                                 blank=True,
                                 null=True,
-                                verbose_name='Adresse'),
+                                verbose_name='Adresse')
     user = models.ForeignKey(User, blank=True, null=True)
     projects = models.ManyToManyField(
                 Project,
